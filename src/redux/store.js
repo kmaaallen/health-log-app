@@ -4,7 +4,7 @@ import { persistStore, persistReducer } from 'redux-persist';
 
 import countReducer from './reducers';
 
-const rootReducer = combineReducers({ countReducer: countReducer });
+const rootReducer = combineReducers({ count: countReducer });
 
 //Redux Persist Config
 const persistConfig = {
