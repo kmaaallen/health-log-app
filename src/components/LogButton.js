@@ -19,8 +19,8 @@ class LogButton extends Component {
 };
 
 const mapStateToProps = (state) => ({
-    count: state.countReducer.count,
-    updated: state.countReducer.updated
+    count: state.count.count,
+    updated: state.count.updated
 })
 
 const mapActionsToProps = {
