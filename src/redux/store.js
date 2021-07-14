@@ -9,6 +9,7 @@ const rootReducer = combineReducers({ count: countReducer });
 //Redux Persist Config
 const persistConfig = {
     key: 'root',
+    version: 1,
     storage: AsyncStorage,
     whitelist: [
         'countReducer',
