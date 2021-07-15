@@ -4,7 +4,7 @@ import { Card, Paragraph } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { incrementCount } from '../redux/actions';
 
-class LogButton extends Component {
+export class LogButton extends Component {
     render() {
         return (
             <Card onPress={this.props.incrementCount} style={{ height: 200, width: 200 }}>
