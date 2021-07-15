@@ -1,7 +1,28 @@
 import { createStore, combineReducers } from 'redux';
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { persistStore, persistReducer } from 'redux-persist';
 
-//import xx from './reducers';
+import countReducer from './reducers';
 
-const rootReducer = combineReducers({});
+const rootReducer = combineReducers({ count: countReducer });
 
-export const store = createStore(rootReducer);
+//Redux Persist Config
+const persistConfig = {
+    key: 'root',
+    version: 1,
+    storage: AsyncStorage,
+    whitelist: [
+        'count',
+    ],
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+const store = createStore(persistedReducer);
+
+let persistor = persistStore(store);
+
+export {
+    store,
+    persistor,
+};
