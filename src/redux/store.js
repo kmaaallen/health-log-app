@@ -12,7 +12,7 @@ const persistConfig = {
     version: 1,
     storage: AsyncStorage,
     whitelist: [
-        'countReducer',
+        'count',
     ],
 };
 
