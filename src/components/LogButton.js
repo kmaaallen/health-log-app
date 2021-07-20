@@ -19,7 +19,8 @@ export class LogButton extends Component {
 
 const mapStateToProps = (state) => ({
     count: state.count.count,
-    updated: state.count.updated
+    updated: state.count.updated ? (new Date(state.count.updated)).toLocaleString() : 'Never',
+    hasReachedLimit: hasReachedDailyLimitSelector(state)
 })
 
 const mapActionsToProps = {
