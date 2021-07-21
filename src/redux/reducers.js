@@ -10,7 +10,7 @@ const countReducer = (state = initialState, action) => {
             return {
                 ...state,
                 count: state.count + 1,
-                updated: (new Date()).valueOf()
+                updated: action.payload.updated
             }
         }
         default: {
