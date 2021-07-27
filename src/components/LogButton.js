@@ -34,9 +34,14 @@ const mapStateToProps = (state) => ({
     updated: state.count.updated ? (new Date(state.count.updated)).toLocaleString() : 'Never',
     hasReachedLimit: hasReachedDailyLimitSelector(state)
 })
-
+/*
 const mapActionsToProps = {
     incrementCount,
+}*/
+const mapDispatchToProps = (dispatch) => {
+    return {
+        incrementCount: () => dispatch(incrementCount((new Date()).valueOf())),
+    }
 }
 
-export default connect(mapStateToProps, mapActionsToProps)(LogButton);
+export default connect(mapStateToProps, mapDispatchToProps)(LogButton);
