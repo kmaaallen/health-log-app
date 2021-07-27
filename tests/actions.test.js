@@ -13,10 +13,10 @@ describe('test incrementCount action', () => {
         const expectedActions = [
             {
                 'type': 'INCREMENT_COUNT',
-                'payload': { updated: current.valueOf() }
+                'payload': { updated: 1612235045000 }
             },
         ];
-        store.dispatch(incrementCount({ updated: current.valueOf() }));
+        store.dispatch(incrementCount(new Date('02 Feb 2021 03:04:05 GMT').valueOf()));
         expect(store.getActions()).toEqual(expectedActions);
     });
 
