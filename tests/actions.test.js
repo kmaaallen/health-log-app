@@ -9,13 +9,14 @@ describe('test incrementCount action', () => {
         store.clearActions();
     });
     it('dispatches correct action and payload', () => {
+        const current = new Date();
         const expectedActions = [
             {
                 'type': 'INCREMENT_COUNT',
-                'payload': { updated: (new Date()).valueOf() }
+                'payload': { updated: current.valueOf() }
             },
         ];
-        store.dispatch(incrementCount({ updated: (new Date()).valueOf() }));
+        store.dispatch(incrementCount({ updated: current.valueOf() }));
         expect(store.getActions()).toEqual(expectedActions);
     });
 
