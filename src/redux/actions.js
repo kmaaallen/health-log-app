@@ -1,5 +1,5 @@
-export const incrementCount = () => ({
+export const incrementCount = (date) => ({
     type: 'INCREMENT_COUNT',
-    payload: { updated: (new Date()).valueOf() }
+    payload: { updated: date }
 });
 
