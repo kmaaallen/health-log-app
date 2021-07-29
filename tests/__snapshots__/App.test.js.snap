@@ -537,16 +537,6 @@ exports[`<App /> renders correctly 1`] = `
                                     ]
                                   }
                                 >
-                                  <View
-                                    style={
-                                      Object {
-                                        "marginLeft": 12,
-                                        "marginRight": -4,
-                                      }
-                                    }
-                                  >
-                                    <Text />
-                                  </View>
                                   <Text
                                     numberOfLines={1}
                                     selectable={false}
@@ -586,7 +576,9 @@ exports[`<App /> renders correctly 1`] = `
                                         ],
                                       ]
                                     }
-                                  />
+                                  >
+                                    +
+                                  </Text>
                                 </View>
                               </View>
                             </View>
