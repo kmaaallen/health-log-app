@@ -1,4 +1,4 @@
-import { incrementCount } from '../src/redux/actions';
+import { incrementCount, setLimit, resetCount } from '../src/redux/actions';
 import configureStore from 'redux-mock-store';
 
 const mockStore = configureStore();
@@ -9,7 +9,6 @@ describe('test incrementCount action', () => {
         store.clearActions();
     });
     it('dispatches correct action and payload', () => {
-        const current = new Date();
         const expectedActions = [
             {
                 'type': 'INCREMENT_COUNT',
@@ -17,6 +16,39 @@ describe('test incrementCount action', () => {
             },
         ];
         store.dispatch(incrementCount(new Date('02 Feb 2021 03:04:05 GMT').valueOf()));
+        expect(store.getActions()).toEqual(expectedActions);
+    });
+
+});
+
+describe('test setLimit action', () => {
+    beforeEach(() => {
+        store.clearActions();
+    });
+    it('dispatches correct action and payload', () => {
+        const expectedActions = [
+            {
+                'type': 'SET_LIMIT',
+                'payload': { limit: 3 }
+            },
+        ];
+        store.dispatch(setLimit(3));
+        expect(store.getActions()).toEqual(expectedActions);
+    });
+
+});
+
+describe('test resetCount action', () => {
+    beforeEach(() => {
+        store.clearActions();
+    });
+    it('dispatches correct action and payload', () => {
+        const expectedActions = [
+            {
+                'type': 'RESET_COUNT'
+            },
+        ];
+        store.dispatch(resetCount());
         expect(store.getActions()).toEqual(expectedActions);
     });
 
