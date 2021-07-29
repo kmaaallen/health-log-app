@@ -22,7 +22,7 @@ export class LogButton extends Component {
                     <Paragraph>Last logged: {this.props.updated}</Paragraph>
                 </Card.Content>
                 <Card.Actions>
-                    <Button mode='contained' disabled={this.props.hasReachedLimit} onPress={this.props.incrementCount} icon="plus"></Button>
+                    <Button mode='contained' disabled={this.props.hasReachedLimit} onPress={this.props.incrementCount}>+</Button>
                 </Card.Actions>
             </Card>
         );
