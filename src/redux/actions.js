@@ -3,3 +3,12 @@ export const incrementCount = (date) => ({
     payload: { updated: date }
 });
 
+export const setLimit = (limit) => ({
+    type: 'SET_LIMIT',
+    payload: { limit: limit }
+});
+
+export const resetCount = () => ({
+    type: 'RESET_COUNT'
+});
+
