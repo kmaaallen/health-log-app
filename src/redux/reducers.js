@@ -1,16 +1,8 @@
 // Initial State
 const initialState = {
     count: 0,
-    updated: 'Never'
+    updated: null
 };
-
-//Helpers
-function setUpdated() {
-    var now = Date.now();
-    var date = new Date(now);
-    var dateTime = date.toLocaleString();
-    return dateTime;
-}
 
 const countReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -18,7 +10,7 @@ const countReducer = (state = initialState, action) => {
             return {
                 ...state,
                 count: state.count + 1,
-                updated: setUpdated()
+                updated: action.payload.updated
             }
         }
         default: {
