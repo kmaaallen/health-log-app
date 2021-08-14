@@ -1,29 +1,55 @@
 // Initial State
+
 const initialState = {
-    count: 0,
-    updated: null,
-    limit: 1
+    habits: []
 };
+/* habit structure
+const initialState = {
+    habits : [ 
+        {
+            id: 1
+            count: 0,
+            limit: 1,
+            log: [{
+                updated: 1234567,
+                info: {
+                    type: 'reset'
+                }
+            }]
+        }
+    ]
+};*/
 
 const countReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'INCREMENT_COUNT': {
+            const index = state.habits.findIndex(habit => habit.id == action.payload.id);
+            const newArray = [...state.habits];
+            newArray[index].count += 1;
+            newArray[index].log.push({ updated: action.payload.updated, info: { type: 'increment' } });
             return {
                 ...state,
-                count: state.count + 1,
-                updated: action.payload.updated
+                habits: newArray
             }
         }
         case 'SET_LIMIT': {
+            const index = state.habits.findIndex(habit => habit.id == action.payload.id);
+            const newArray = [...state.habits];
+            newArray[index].limit = action.payload.limit;
+            newArray[index].log.push({ updated: action.payload.updated, info: { type: 'limit' } });
             return {
                 ...state,
-                limit: action.payload.limit
+                habits: newArray
             }
         }
         case 'RESET_COUNT': {
+            const index = state.habits.findIndex(habit => habit.id == action.payload.id);
+            const newArray = [...state.habits];
+            newArray[index].count = 0;
+            newArray[index].log.push({ updated: action.payload.updated, info: { type: 'reset' } });
             return {
                 ...state,
-                count: 0
+                habits: newArray
             }
         }
         default: {
