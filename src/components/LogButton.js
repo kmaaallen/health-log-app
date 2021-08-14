@@ -20,7 +20,6 @@ export class LogButton extends Component {
         this.state = { visible: false, tempLimit: 0 };
         this.showDialog = this.showDialog.bind(this);
         this.hideDialog = this.hideDialog.bind(this);
-        this.showDialog = this.showDialog.bind(this);
         this.setLimit = this.setLimit.bind(this);
     }
 
