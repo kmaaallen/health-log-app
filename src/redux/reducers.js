@@ -5,51 +5,36 @@ const initialState = {
 };
 /* habit structure
 const initialState = {
-    habits : [ 
-        {
-            id: 1
-            count: 0,
-            limit: 1,
-            log: [{
-                updated: 1234567,
-                info: {
-                    type: 'reset'
-                }
-            }]
-        }
-    ]
+    habits : {1: { count: 0,limit: 1, log: [{updated: 1234567, info: { type: 'reset'}}]}}
 };*/
 
 const countReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'INCREMENT_COUNT': {
-            const index = state.habits.findIndex(habit => habit.id == action.payload.id);
-            const newArray = [...state.habits];
-            newArray[index].count += 1;
-            newArray[index].log.push({ updated: action.payload.updated, info: { type: 'increment' } });
+            const id = action.payload.id;
+            const habit = state.habits[id];
+            habit.count += 1;
+            habit.log.push({ updated: action.payload.updated, info: { type: 'increment' } });
             return {
-                ...state,
-                habits: newArray
+                ...state
             }
         }
         case 'SET_LIMIT': {
-            const index = state.habits.findIndex(habit => habit.id == action.payload.id);
-            const newArray = [...state.habits];
-            newArray[index].limit = action.payload.limit;
-            newArray[index].log.push({ updated: action.payload.updated, info: { type: 'limit' } });
+            const id = action.payload.id;
+            const habit = state.habits[id];
+            habit.limit = action.payload.limit;
+            habit.log.push({ updated: action.payload.updated, info: { type: 'limit' } });
             return {
-                ...state,
-                habits: newArray
+                ...state
             }
         }
         case 'RESET_COUNT': {
-            const index = state.habits.findIndex(habit => habit.id == action.payload.id);
-            const newArray = [...state.habits];
-            newArray[index].count = 0;
-            newArray[index].log.push({ updated: action.payload.updated, info: { type: 'reset' } });
+            const id = action.payload.id;
+            const habit = state.habits[id];
+            habit.count = 0;
+            habit.log.push({ updated: action.payload.updated, info: { type: 'reset' } });
             return {
-                ...state,
-                habits: newArray
+                ...state
             }
         }
         default: {
