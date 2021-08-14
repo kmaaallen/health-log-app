@@ -5,7 +5,7 @@ const initialState = {
 };
 /* habit structure
 const initialState = {
-    habits : {1: { count: 0,limit: 1, log: [{updated: 1234567, info: { type: 'reset'}}]}}
+    habits : {1: { id: 1, count: 0,limit: 1, log: [{updated: 1234567, info: { type: 'reset'}}]}}
 };*/
 
 const countReducer = (state = initialState, action) => {
