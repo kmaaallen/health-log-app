@@ -9,11 +9,13 @@ describe('test countReducer', () => {
             countReducer({
                 habits: {
                     1: {
+                        id: 1,
                         count: 0,
                         limit: 1,
                         log: []
                     },
                     2: {
+                        id: 2,
                         count: 0,
                         limit: 1,
                         log: []
@@ -26,11 +28,13 @@ describe('test countReducer', () => {
         ).toEqual({
             habits: {
                 1: {
+                    id: 1,
                     count: 1,
                     limit: 1,
                     log: [{ updated: 1612235045000, info: { type: 'increment' } }]
                 },
                 2: {
+                    id: 2,
                     count: 0,
                     limit: 1,
                     log: []
@@ -43,11 +47,13 @@ describe('test countReducer', () => {
             countReducer({
                 habits: {
                     1: {
+                        id: 1,
                         count: 0,
                         limit: 1,
                         log: []
                     },
                     2: {
+                        id: 2,
                         count: 0,
                         limit: 1,
                         log: []
@@ -60,11 +66,13 @@ describe('test countReducer', () => {
         ).toEqual({
             habits: {
                 1: {
+                    id: 1,
                     count: 0,
                     limit: 3,
                     log: [{ updated: 1612235045000, info: { type: 'limit' } }]
                 },
                 2: {
+                    id: 2,
                     count: 0,
                     limit: 1,
                     log: []
@@ -77,11 +85,13 @@ describe('test countReducer', () => {
             countReducer({
                 habits: {
                     1: {
+                        id: 1,
                         count: 1,
                         limit: 1,
                         log: []
                     },
                     2: {
+                        id: 2,
                         count: 0,
                         limit: 1,
                         log: []
@@ -94,11 +104,13 @@ describe('test countReducer', () => {
         ).toEqual({
             habits: {
                 1: {
+                    id: 1,
                     count: 0,
                     limit: 1,
                     log: [{ updated: 1612235045000, info: { type: 'reset' } }]
                 },
                 2: {
+                    id: 2,
                     count: 0,
                     limit: 1,
                     log: []
