@@ -44,14 +44,14 @@ export class LogButton extends Component {
 
     render() {
         return (
-            <Card style={styles.container}>
+            <Card style={styles.container} id={this.props.id}>
                 <Card.Content>
                     <Title>My Habit</Title>
-                    <Paragraph>{this.props.count} / {this.props.limit}</Paragraph>
+                    <Paragraph>{this.props.habit.count} / {this.props.habit.limit}</Paragraph>
                     <Paragraph>Last logged: {this.props.updatedDisplay}</Paragraph>
                 </Card.Content>
                 <Card.Actions>
-                    <Button mode='contained' disabled={this.props.hasReachedLimit} onPress={this.props.incrementCount}>+</Button>
+                    <Button mode='contained' disabled={this.props.hasReachedLimit} onPress={this.incrementCount}>+</Button>
                     <Button mode='contained' onPress={this.showDialog}>Set Limit</Button>
                 </Card.Actions>
                 <Dialog visible={this.state.visible} onDismiss={this.hideDialog}>
@@ -72,19 +72,22 @@ export class LogButton extends Component {
     }
 };
 
-const mapStateToProps = (state) => ({
-    count: state.count.count,
-    updated: state.count.updated,
-    updatedDisplay: state.count.updated ? (new Date(state.count.updated)).toLocaleString() : 'Never',
-    hasReachedLimit: hasReachedDailyLimitSelector(state),
-    limit: state.count.limit
-})
-
-const mapDispatchToProps = (dispatch) => {
+function mapStateToProps(state, ownProps) {
+    const habit = state.count.habits[ownProps.id];
+    const lastIncrementLog = habit.log.filter((log) => { return log.info.type == 'increment' }).slice(-1);
     return {
-        incrementCount: () => dispatch(incrementCount((new Date()).valueOf())),
-        resetCount: () => dispatch(resetCount()),
-        setLimit: (limit) => dispatch(setLimit(limit))
+        habit: habit,
+        lastUpdated: habit ? lastIncrementLog.updated : null,
+        updatedDisplay: lastIncrementLog ? (new Date(lastIncrementLog.updated)).toLocaleString() : 'Never',
+        hasReachedLimit: habit ? hasReachedDailyLimitSelector(state.count, ownProps.id) : {},
+    }
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        incrementCount: () => dispatch(incrementCount((new Date()).valueOf()), ownProps.id),
+        resetCount: () => dispatch(resetCount((new Date()).valueOf(), ownProps.id)),
+        setLimit: (limit) => dispatch(setLimit((new Date()).valueOf(), limit, ownProps.id))
     }
 }
 
