@@ -2,6 +2,7 @@
 
 exports[`<LogButton /> renders correctly 1`] = `
 <View
+  id={1}
   style={
     Object {
       "backgroundColor": "#ffffff",
@@ -119,7 +120,9 @@ exports[`<LogButton /> renders correctly 1`] = `
           ]
         }
       >
+        1
          / 
+        1
       </Text>
       <Text
         style={
@@ -156,6 +159,7 @@ exports[`<LogButton /> renders correctly 1`] = `
         }
       >
         Last logged: 
+        Invalid Date
       </Text>
     </View>
     <View
@@ -183,20 +187,13 @@ exports[`<LogButton /> renders correctly 1`] = `
       <View
         style={
           Object {
-            "backgroundColor": "#6200ee",
+            "backgroundColor": "rgba(0, 0, 0, 0.12)",
             "borderColor": "transparent",
             "borderRadius": 4,
             "borderStyle": "solid",
             "borderWidth": 0,
-            "elevation": 2,
+            "elevation": 0,
             "minWidth": "auto",
-            "shadowColor": "#000000",
-            "shadowOffset": Object {
-              "height": 0.75,
-              "width": 0,
-            },
-            "shadowOpacity": 0.24,
-            "shadowRadius": 1.5,
           }
         }
       >
@@ -204,7 +201,7 @@ exports[`<LogButton /> renders correctly 1`] = `
           accessibilityRole="button"
           accessibilityState={
             Object {
-              "disabled": undefined,
+              "disabled": true,
             }
           }
           accessible={true}
@@ -266,7 +263,7 @@ exports[`<LogButton /> renders correctly 1`] = `
                       "textTransform": "uppercase",
                     },
                     Object {
-                      "color": "#ffffff",
+                      "color": "rgba(0, 0, 0, 0.32)",
                       "fontFamily": "System",
                       "fontWeight": "500",
                     },
