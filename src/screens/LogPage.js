@@ -11,7 +11,7 @@ function LogPage({ habits }) {
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             <Text>Log Page</Text>
 
-            {habits.length > 0 ? Object.keys({ habits }).map((habit) => {
+            {habits ? Object.keys({ habits }).map((habit) => {
                 return <LogButton id={habit.id} key={habit.id} />
             }) : null}
 
