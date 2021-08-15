@@ -1,8 +1,8 @@
 import countReducer from '../src/redux/reducers';
 
 describe('test countReducer', () => {
-    it('should return empty habits array as initial state', () => {
-        expect(countReducer(undefined, {})).toEqual({ habits: [] });
+    it('should return empty habits object as initial state', () => {
+        expect(countReducer(undefined, {})).toEqual({ habits: {} });
     });
     it('should handle INCREMENT_COUNT', () => {
         expect(
