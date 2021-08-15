@@ -1,7 +1,7 @@
 // Initial State
 
 const initialState = {
-    habits: []
+    habits: {}
 };
 /* habit structure
 const initialState = {
