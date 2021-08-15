@@ -29,10 +29,10 @@ describe('test setLimit action', () => {
         const expectedActions = [
             {
                 'type': 'SET_LIMIT',
-                'payload': { limit: 3 }
+                'payload': { updated: 1612235045000, limit: 3, id: 1 }
             },
         ];
-        store.dispatch(setLimit(3));
+        store.dispatch(setLimit(new Date('02 Feb 2021 03:04:05 GMT').valueOf(), 3, 1));
         expect(store.getActions()).toEqual(expectedActions);
     });
 
@@ -45,10 +45,11 @@ describe('test resetCount action', () => {
     it('dispatches correct action and payload', () => {
         const expectedActions = [
             {
-                'type': 'RESET_COUNT'
+                'type': 'RESET_COUNT',
+                'payload': { updated: 1612235045000, id: 1 }
             },
         ];
-        store.dispatch(resetCount());
+        store.dispatch(resetCount(new Date('02 Feb 2021 03:04:05 GMT').valueOf(), 1));
         expect(store.getActions()).toEqual(expectedActions);
     });
 
