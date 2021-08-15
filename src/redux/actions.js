@@ -1,14 +1,15 @@
-export const incrementCount = (date) => ({
+export const incrementCount = (date, id) => ({
     type: 'INCREMENT_COUNT',
-    payload: { updated: date }
+    payload: { updated: date, id: id }
 });
 
-export const setLimit = (limit) => ({
+export const setLimit = (date, limit, id) => ({
     type: 'SET_LIMIT',
-    payload: { limit: limit }
+    payload: { updated: date, limit: limit, id: id }
 });
 
-export const resetCount = () => ({
-    type: 'RESET_COUNT'
+export const resetCount = (date, id) => ({
+    type: 'RESET_COUNT',
+    payload: { updated: date, id: id }
 });
 
