@@ -117,5 +117,25 @@ describe('test countReducer', () => {
                 }
             }
         });
+    });
+    it('should handle CREATE_HABIT', () => {
+        expect(
+            countReducer({
+                habits: {}
+            }, {
+                type: 'CREATE_HABIT',
+                payload: { updated: new Date('02 Feb 2021 03:04:05 GMT').valueOf(), title: 'My test habit', limit: 3 }
+            })
+        ).toEqual({
+            habits: {
+                1: {
+                    id: 1,
+                    title: 'My test habit',
+                    count: 0,
+                    limit: 3,
+                    log: [{ updated: 1612235045000, info: { type: 'created' } }]
+                },
+            }
+        });
     })
 });
