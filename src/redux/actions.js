@@ -13,3 +13,8 @@ export const resetCount = (date, id) => ({
     payload: { updated: date, id: id }
 });
 
+export const createHabit = (date, title, limit) => ({
+    type: 'CREATE_HABIT',
+    payload: { updated: date, title: title, limit: limit }
+});
+
