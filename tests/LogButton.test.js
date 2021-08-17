@@ -16,9 +16,10 @@ describe('<LogButton />', () => {
                 habits: {
                     1: {
                         id: 1,
+                        title: 'My First Habit',
                         count: 1,
                         limit: 1,
-                        log: [{ updated: 1612235045000, info: { type: 'increment' } }]
+                        log: [{ updated: 1612235045000, info: { type: 'created' } }, { updated: 1612235045000, info: { type: 'increment' } }]
                     }
                 }
             }
