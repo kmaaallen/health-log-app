@@ -8,7 +8,11 @@ import { hasReachedDailyLimitSelector } from '../redux/selectors';
 
 const styles = StyleSheet.create({
     container: {
-        height: 150,
+        margin: 20
+    },
+    plus: {
+        width: 80,
+        margin: 2
     }
 });
 
@@ -22,7 +26,6 @@ export class LogButton extends Component {
         this.hideDialog = this.hideDialog.bind(this);
         this.setLimit = this.setLimit.bind(this);
     }
-
     showDialog = () => this.setState({ visible: true });
 
     hideDialog = () => this.setState({ visible: false });
@@ -37,21 +40,21 @@ export class LogButton extends Component {
     componentDidMount() {
         var midnight = new Date();
         midnight.setUTCHours(0, 0, 0, 0);
-        if (new Date(this.props.updated) < midnight) {
+        if (new Date(this.props.lastUpdated) < midnight) {
             this.props.resetCount();
         }
     }
 
     render() {
         return (
-            <Card style={styles.container} id={this.props.id}>
+            <Card elevation={3} style={styles.container} id={this.props.id}>
                 <Card.Content>
-                    <Title>My Habit</Title>
+                    <Title>{this.props.habit.title}</Title>
                     <Paragraph>{this.props.habit.count} / {this.props.habit.limit}</Paragraph>
                     <Paragraph>Last logged: {this.props.updatedDisplay}</Paragraph>
                 </Card.Content>
                 <Card.Actions>
-                    <Button mode='contained' disabled={this.props.hasReachedLimit} onPress={this.incrementCount}>+</Button>
+                    <Button style={styles.plus} mode='contained' disabled={this.props.hasReachedLimit} onPress={this.props.incrementCount}>+</Button>
                     <Button mode='contained' onPress={this.showDialog}>Set Limit</Button>
                 </Card.Actions>
                 <Dialog visible={this.state.visible} onDismiss={this.hideDialog}>
@@ -74,18 +77,19 @@ export class LogButton extends Component {
 
 function mapStateToProps(state, ownProps) {
     const habit = state.count.habits[ownProps.id];
-    const lastIncrementLog = habit.log.filter((log) => { return log.info.type == 'increment' }).slice(-1);
+    const lastIncrementLog = habit ? habit.log.filter((log) => { return log.info.type == 'increment' }).slice(-1) : null;
+    var event = lastIncrementLog[0];
     return {
         habit: habit,
-        lastUpdated: habit ? lastIncrementLog.updated : null,
-        updatedDisplay: lastIncrementLog ? (new Date(lastIncrementLog.updated)).toLocaleString() : 'Never',
+        lastUpdated: event ? event.updated : null,
+        updatedDisplay: event ? (new Date(event.updated)).toLocaleString() : 'Never',
         hasReachedLimit: habit ? hasReachedDailyLimitSelector(state.count, ownProps.id) : {},
     }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        incrementCount: () => dispatch(incrementCount((new Date()).valueOf()), ownProps.id),
+        incrementCount: () => dispatch(incrementCount((new Date()).valueOf(), ownProps.id)),
         resetCount: () => dispatch(resetCount((new Date()).valueOf(), ownProps.id)),
         setLimit: (limit) => dispatch(setLimit((new Date()).valueOf(), limit, ownProps.id))
     }
