@@ -5,11 +5,24 @@ const initialState = {
 };
 /* habit structure
 const initialState = {
-    habits : {1: { id: 1, count: 0,limit: 1, log: [{updated: 1234567, info: { type: 'reset'}}]}}
+    habits : {1: { id: 1, title: 'My habit', count: 0,limit: 1, log: [{updated: 1234567, info: { type: 'reset'}}]}}
 };*/
 
 const countReducer = (state = initialState, action) => {
     switch (action.type) {
+        case 'CREATE_HABIT': {
+            const id = state.habits ? Object.keys(state.habits).length + 1 : 1;
+            const title = action.payload.title;
+            const limit = action.payload.limit;
+
+            return {
+                ...state,
+                habits: {
+                    ...state.habits,
+                    [id]: { id: id, title: title, count: 0, limit: limit, log: [{ updated: action.payload.updated, info: { type: 'created' } }] }
+                }
+            }
+        }
         case 'INCREMENT_COUNT': {
             const id = action.payload.id;
             const habit = state.habits[id];
