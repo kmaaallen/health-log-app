@@ -159,7 +159,7 @@ exports[`<LogButton /> renders correctly 1`] = `
         }
       >
         Last logged: 
-        2/2/2021, 03:04:05
+        2/2/2021, 03:04:05 AM
       </Text>
     </View>
     <View
