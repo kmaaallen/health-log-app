@@ -1,21 +1,23 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { ScrollView } from 'react-native';
+import { Provider } from 'react-native-paper';
 //components
-import { LogButton } from '../components/LogButton';
+import LogButton from '../components/LogButton';
+import CreateHabit from '../components/CreateHabit';
 //REDUX
 import { connect } from 'react-redux';
 
 
 function LogPage({ habits }) {
+    const habitButtons = habits ? Object.keys(habits) : [];
+
     return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text>Log Page</Text>
-
-            {habits ? Object.keys({ habits }).map((habit) => {
-                return <LogButton id={habit.id} key={habit.id} />
-            }) : null}
-
-        </View>
+        <Provider>
+            <ScrollView>
+                <CreateHabit />
+                {habitButtons.map((item) => (<LogButton id={item} key={item} />))}
+            </ScrollView>
+        </Provider>
     );
 }
 
