@@ -9,6 +9,7 @@ import LogButton from '../src/components/LogButton';
 
 describe('<LogButton />', () => {
     let store;
+    var toLocaleString = Date.prototype.toLocaleString;
 
     beforeEach(() => {
         store = mockStore({
@@ -24,6 +25,12 @@ describe('<LogButton />', () => {
                 }
             }
         });
+        Date.prototype.toLocaleString = function () {
+            return '02/02/2021, 03:04:05';
+        }
+    });
+    afterEach(() => {
+        Date.prototype.toLocaleString = toLocaleString;
     });
     it('has 1 child', () => {
         const tree = renderer.create(<Provider store={store}><LogButton id={1} key={1} /></Provider>).toJSON();
