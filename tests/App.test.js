@@ -11,13 +11,12 @@ jest.mock('redux-persist/integration/react', () => ({
     PersistGate: props => props.children,
 }));
 
-let store;
-
-beforeEach(() => {
-    store = mockStore({ count: { habits: {} } });
-});
-
 describe('<App />', () => {
+    let store;
+
+    beforeEach(() => {
+        store = mockStore({ count: { habits: {} } });
+    });
     it('has 1 child', () => {
         const tree = renderer.create(<Provider store={store}><App /></Provider>).toJSON();
         expect(tree.children.length).toBe(1);
