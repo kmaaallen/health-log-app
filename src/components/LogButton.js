@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Button, Title, Paragraph, Dialog, TextInput } from 'react-native-paper';
+import { Card, Button, Title, Paragraph, Dialog, TextInput, Portal } from 'react-native-paper';
 import { StyleSheet } from 'react-native';
 //REDUX
 import { connect } from 'react-redux';
@@ -57,19 +57,21 @@ export class LogButton extends Component {
                     <Button style={styles.plus} mode='contained' disabled={this.props.hasReachedLimit} onPress={this.props.incrementCount}>+</Button>
                     <Button mode='contained' onPress={this.showDialog}>Set Limit</Button>
                 </Card.Actions>
-                <Dialog visible={this.state.visible} onDismiss={this.hideDialog}>
-                    <Dialog.Title>Choose a daily limit</Dialog.Title>
-                    <Dialog.Content>
-                        <TextInput
-                            label="Daily limit"
-                            onChangeText={(limit) => this.setTempLimit(limit)}
-                        />
-                    </Dialog.Content>
-                    <Dialog.Actions>
-                        <Button onPress={this.hideDialog}>Cancel</Button>
-                        <Button onPress={this.setLimit}>Ok</Button>
-                    </Dialog.Actions>
-                </Dialog>
+                <Portal>
+                    <Dialog visible={this.state.visible} onDismiss={this.hideDialog}>
+                        <Dialog.Title>Choose a daily limit</Dialog.Title>
+                        <Dialog.Content>
+                            <TextInput
+                                label="Daily limit"
+                                onChangeText={(limit) => this.setTempLimit(limit)}
+                            />
+                        </Dialog.Content>
+                        <Dialog.Actions>
+                            <Button onPress={this.hideDialog}>Cancel</Button>
+                            <Button onPress={this.setLimit}>Ok</Button>
+                        </Dialog.Actions>
+                    </Dialog>
+                </Portal>
             </Card >
         );
     }
