@@ -29,7 +29,7 @@ describe('<LogButton />', () => {
             return '02/02/2021, 03:04:05';
         }
     });
-    afterEach(() => {
+    afterAll(() => {
         Date.prototype.toLocaleString = toLocaleString;
     });
     it('has 1 child', () => {
