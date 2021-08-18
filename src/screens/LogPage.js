@@ -1,6 +1,6 @@
 import React from 'react';
 import { ScrollView } from 'react-native';
-import { Provider } from 'react-native-paper';
+import { Provider, Portal } from 'react-native-paper';
 //components
 import LogButton from '../components/LogButton';
 import CreateHabit from '../components/CreateHabit';
@@ -13,10 +13,12 @@ function LogPage({ habits }) {
 
     return (
         <Provider>
-            <ScrollView>
-                <CreateHabit />
-                {habitButtons.map((item) => (<LogButton id={item} key={item} />))}
-            </ScrollView>
+            <Portal.Host>
+                <ScrollView>
+                    <CreateHabit />
+                    {habitButtons.map((item) => (<LogButton id={item} key={item} />))}
+                </ScrollView>
+            </Portal.Host>
         </Provider>
     );
 }
