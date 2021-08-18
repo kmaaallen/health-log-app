@@ -168,7 +168,7 @@ exports[`<LogButton /> renders correctly 1`] = `
         Array [
           "Card.Content",
           "Card.Actions",
-          "withTheme(Dialog)",
+          "withTheme(Portal)",
         ]
       }
       style={

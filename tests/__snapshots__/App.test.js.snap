@@ -296,128 +296,138 @@ exports[`<App /> renders correctly 1`] = `
                         }
                       }
                     >
-                      <RCTScrollView>
-                        <View>
-                          <View
-                            style={
-                              Object {
-                                "alignItems": "center",
-                                "backgroundColor": "#ffffff",
-                                "elevation": 4,
-                                "height": 80,
-                                "justifyContent": "center",
-                                "margin": 8,
-                                "marginLeft": 25,
-                                "padding": 8,
-                                "shadowColor": "#000000",
-                                "shadowOffset": Object {
-                                  "height": 3,
-                                  "width": 0,
-                                },
-                                "shadowOpacity": 0.24,
-                                "shadowRadius": 4,
-                                "width": 325,
-                              }
-                            }
-                          >
+                      <View
+                        collapsable={false}
+                        pointerEvents="box-none"
+                        style={
+                          Object {
+                            "flex": 1,
+                          }
+                        }
+                      >
+                        <RCTScrollView>
+                          <View>
                             <View
                               style={
                                 Object {
-                                  "backgroundColor": "transparent",
-                                  "borderColor": "transparent",
-                                  "borderRadius": 4,
-                                  "borderStyle": "solid",
-                                  "borderWidth": 0,
-                                  "elevation": 0,
-                                  "minWidth": 64,
+                                  "alignItems": "center",
+                                  "backgroundColor": "#ffffff",
+                                  "elevation": 4,
+                                  "height": 80,
+                                  "justifyContent": "center",
+                                  "margin": 8,
+                                  "marginLeft": 25,
+                                  "padding": 8,
+                                  "shadowColor": "#000000",
+                                  "shadowOffset": Object {
+                                    "height": 3,
+                                    "width": 0,
+                                  },
+                                  "shadowOpacity": 0.24,
+                                  "shadowRadius": 4,
+                                  "width": 325,
                                 }
                               }
                             >
                               <View
-                                accessibilityRole="button"
-                                accessibilityState={
-                                  Object {
-                                    "disabled": undefined,
-                                  }
-                                }
-                                accessible={true}
-                                focusable={true}
-                                onClick={[Function]}
-                                onResponderGrant={[Function]}
-                                onResponderMove={[Function]}
-                                onResponderRelease={[Function]}
-                                onResponderTerminate={[Function]}
-                                onResponderTerminationRequest={[Function]}
-                                onStartShouldSetResponder={[Function]}
                                 style={
-                                  Array [
-                                    Object {
-                                      "overflow": "hidden",
-                                    },
-                                    Object {
-                                      "borderRadius": 4,
-                                    },
-                                  ]
+                                  Object {
+                                    "backgroundColor": "transparent",
+                                    "borderColor": "transparent",
+                                    "borderRadius": 4,
+                                    "borderStyle": "solid",
+                                    "borderWidth": 0,
+                                    "elevation": 0,
+                                    "minWidth": 64,
+                                  }
                                 }
                               >
                                 <View
+                                  accessibilityRole="button"
+                                  accessibilityState={
+                                    Object {
+                                      "disabled": undefined,
+                                    }
+                                  }
+                                  accessible={true}
+                                  focusable={true}
+                                  onClick={[Function]}
+                                  onResponderGrant={[Function]}
+                                  onResponderMove={[Function]}
+                                  onResponderRelease={[Function]}
+                                  onResponderTerminate={[Function]}
+                                  onResponderTerminationRequest={[Function]}
+                                  onStartShouldSetResponder={[Function]}
                                   style={
                                     Array [
                                       Object {
-                                        "alignItems": "center",
-                                        "flexDirection": "row",
-                                        "justifyContent": "center",
+                                        "overflow": "hidden",
                                       },
-                                      undefined,
+                                      Object {
+                                        "borderRadius": 4,
+                                      },
                                     ]
                                   }
                                 >
-                                  <Text
-                                    numberOfLines={1}
-                                    selectable={false}
+                                  <View
                                     style={
                                       Array [
                                         Object {
-                                          "color": "#000000",
-                                          "fontFamily": "System",
-                                          "fontWeight": "400",
+                                          "alignItems": "center",
+                                          "flexDirection": "row",
+                                          "justifyContent": "center",
                                         },
-                                        Object {
-                                          "textAlign": "left",
-                                        },
-                                        Array [
-                                          Object {
-                                            "letterSpacing": 1,
-                                            "marginHorizontal": 16,
-                                            "marginVertical": 9,
-                                            "textAlign": "center",
-                                          },
-                                          undefined,
-                                          Object {
-                                            "textTransform": "uppercase",
-                                          },
-                                          Object {
-                                            "color": "#6200ee",
-                                            "fontFamily": "System",
-                                            "fontWeight": "500",
-                                          },
-                                          Object {
-                                            "fontFamily": "System",
-                                            "fontWeight": "500",
-                                          },
-                                          undefined,
-                                        ],
+                                        undefined,
                                       ]
                                     }
                                   >
-                                    Create new habit
-                                  </Text>
+                                    <Text
+                                      numberOfLines={1}
+                                      selectable={false}
+                                      style={
+                                        Array [
+                                          Object {
+                                            "color": "#000000",
+                                            "fontFamily": "System",
+                                            "fontWeight": "400",
+                                          },
+                                          Object {
+                                            "textAlign": "left",
+                                          },
+                                          Array [
+                                            Object {
+                                              "letterSpacing": 1,
+                                              "marginHorizontal": 16,
+                                              "marginVertical": 9,
+                                              "textAlign": "center",
+                                            },
+                                            undefined,
+                                            Object {
+                                              "textTransform": "uppercase",
+                                            },
+                                            Object {
+                                              "color": "#6200ee",
+                                              "fontFamily": "System",
+                                              "fontWeight": "500",
+                                            },
+                                            Object {
+                                              "fontFamily": "System",
+                                              "fontWeight": "500",
+                                            },
+                                            undefined,
+                                          ],
+                                        ]
+                                      }
+                                    >
+                                      Create new habit
+                                    </Text>
+                                  </View>
                                 </View>
                               </View>
                             </View>
                           </View>
-                        </View>
-                      </RCTScrollView>
+                        </RCTScrollView>
+                      </View>
                     </View>
                   </View>
                 </View>
