@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
+import { Provider as PaperProvider } from 'react-native-paper';
 //Redux
 import { Provider } from 'react-redux';
 import { store, persistor } from './src/redux/store';
@@ -15,13 +16,15 @@ const Stack = createStackNavigator();
 export default function App() {
   return (
     <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <NavigationContainer>
-          <Stack.Navigator>
-            <Stack.Screen name="Log" component={LogPage} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </PersistGate>
+      <PaperProvider>
+        <PersistGate loading={null} persistor={persistor}>
+          <NavigationContainer>
+            <Stack.Navigator>
+              <Stack.Screen name="Log" component={LogPage} />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </PersistGate>
+      </PaperProvider>
     </Provider>
   );
 }
