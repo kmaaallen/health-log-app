@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
-import { Card, Button, Title, Paragraph, Dialog, TextInput, Portal } from 'react-native-paper';
+import { withTheme, Card, Button, Title, Paragraph, Dialog, TextInput, Portal } from 'react-native-paper';
 import { StyleSheet } from 'react-native';
 //REDUX
 import { connect } from 'react-redux';
 import { incrementCount, resetCount, setLimit } from '../redux/actions';
 import { hasReachedDailyLimitSelector } from '../redux/selectors';
 
-const styles = StyleSheet.create({
-    container: {
-        margin: 20
+const styles = theme => StyleSheet.create({
+    card: {
+        margin: theme.spacing.medium,
     },
-    plus: {
-        width: 80,
-        margin: 2
+    button: {
+        width: '48%',
+        marginHorizontal: '1%'
     }
 });
 
@@ -47,15 +47,15 @@ export class LogButton extends Component {
 
     render() {
         return (
-            <Card elevation={3} style={styles.container} id={this.props.id}>
+            <Card elevation={3} id={this.props.id} style={styles(this.props.theme).card}>
                 <Card.Content>
                     <Title>{this.props.habit.title}</Title>
                     <Paragraph>{this.props.habit.count} / {this.props.habit.limit}</Paragraph>
                     <Paragraph>Last logged: {this.props.updatedDisplay}</Paragraph>
                 </Card.Content>
                 <Card.Actions>
-                    <Button style={styles.plus} mode='contained' disabled={this.props.hasReachedLimit} onPress={this.props.incrementCount}>+</Button>
-                    <Button mode='contained' onPress={this.showDialog}>Set Limit</Button>
+                    <Button style={styles(this.props.theme).button} mode='contained' disabled={this.props.hasReachedLimit} onPress={this.props.incrementCount}>+</Button>
+                    <Button style={styles(this.props.theme).button} mode='contained' onPress={this.showDialog}>Set Limit</Button>
                 </Card.Actions>
                 <Portal>
                     <Dialog visible={this.state.visible} onDismiss={this.hideDialog}>
@@ -97,4 +97,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LogButton);
+export default withTheme(connect(mapStateToProps, mapDispatchToProps)(LogButton));
