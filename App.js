@@ -1,6 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import { Provider as PaperProvider } from 'react-native-paper';
+import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 //Redux
 import { Provider } from 'react-redux';
 import { store, persistor } from './src/redux/store';
@@ -16,7 +15,7 @@ const Stack = createStackNavigator();
 export default function App() {
   return (
     <Provider store={store}>
-      <PaperProvider>
+      <PaperProvider theme={theme}>
         <PersistGate loading={null} persistor={persistor}>
           <NavigationContainer>
             <Stack.Navigator>
@@ -29,11 +28,17 @@ export default function App() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+const theme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors
   },
-});
+  dialog: {
+    margin: '5%',
+  },
+  spacing: {
+    small: '1%',
+    medium: '5%'
+  }
+
+}
