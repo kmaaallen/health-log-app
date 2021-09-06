@@ -1,24 +1,14 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
-import { Button, Dialog, TextInput, Portal, Surface } from 'react-native-paper';
+import { withTheme, Button, Dialog, TextInput, Portal, Surface } from 'react-native-paper';
 //REDUX
 import { connect } from 'react-redux';
 import { createHabit } from '../redux/actions';
 
-const styles = StyleSheet.create({
-    dialog: {
-        height: 400,
-        width: 325,
-    },
+const styles = theme => StyleSheet.create({
     surface: {
-        padding: 8,
-        margin: 8,
-        marginLeft: 25,
-        height: 80,
-        width: 325,
-        alignItems: 'center',
-        justifyContent: 'center',
-        elevation: 4,
+        padding: theme.spacing.medium,
+        margin: theme.spacing.medium,
     },
 });
 
@@ -48,10 +38,10 @@ export class CreateHabit extends Component {
 
     render() {
         return (
-            <Surface style={styles.surface}>
+            <Surface elevation={4} style={styles(this.props.theme).surface}>
                 <Button onPress={this.showDialog}>Create new habit</Button>
                 <Portal>
-                    <Dialog visible={this.state.visible} onDismiss={this.hideDialog} style={styles.dialog}>
+                    <Dialog visible={this.state.visible} onDismiss={this.hideDialog}>
                         <Dialog.Title>Create a habit</Dialog.Title>
                         <Dialog.Content>
                             <TextInput
@@ -81,4 +71,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(null, mapDispatchToProps)(CreateHabit);
+export default withTheme(connect(null, mapDispatchToProps)(CreateHabit));
