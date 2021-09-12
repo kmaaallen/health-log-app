@@ -28,7 +28,7 @@ export default function App() {
   );
 }
 
-const theme = {
+export const theme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors
