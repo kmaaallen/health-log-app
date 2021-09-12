@@ -18,7 +18,7 @@ function LogPage({ habits }) {
 }
 
 const mapStateToProps = (state) => ({
-    habits: state.count.habits
+    habits: state.habits.habits
 })
 
 export default connect(mapStateToProps)(LogPage);

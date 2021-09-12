@@ -14,7 +14,7 @@ describe('<LogButton />', () => {
 
     beforeEach(() => {
         store = mockStore({
-            count: {
+            habits: {
                 habits: {
                     1: {
                         id: 1,

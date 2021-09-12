@@ -66,14 +66,14 @@ export const LogButton = (props) => {
 };
 
 function mapStateToProps(state, ownProps) {
-    const habit = state.count.habits[ownProps.id];
+    const habit = state.habits.habits[ownProps.id];
     const lastIncrementLog = habit ? habit.log.filter((log) => { return log.info.type == 'increment' }).slice(-1) : [];
     var event = lastIncrementLog[0];
     return {
         habit: habit,
         lastUpdated: event ? event.updated : null,
         updatedDisplay: event ? (new Date(event.updated)).toLocaleString() : 'Never',
-        hasReachedLimit: habit ? hasReachedDailyLimitSelector(state.count, ownProps.id) : {},
+        hasReachedLimit: habit ? hasReachedDailyLimitSelector(state.habits, ownProps.id) : {},
     }
 }
 

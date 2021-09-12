@@ -8,7 +8,7 @@ const initialState = {
     habits : {1: { id: 1, title: 'My habit', count: 0,limit: 1, log: [{updated: 1234567, info: { type: 'reset'}}]}}
 };*/
 
-const countReducer = (state = initialState, action) => {
+const habitReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'CREATE_HABIT': {
             const id = state.habits ? Object.keys(state.habits).length + 1 : 1;
@@ -56,4 +56,4 @@ const countReducer = (state = initialState, action) => {
     }
 };
 
-export default countReducer;
+export default habitReducer;
