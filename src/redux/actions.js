@@ -1,20 +1,20 @@
-export const incrementCount = (date, id) => ({
+export const incrementCount = (args) => ({
     type: 'INCREMENT_COUNT',
-    payload: { updated: date, id: id }
+    payload: { updated: args.updated, id: args.habitId }
 });
 
-export const setLimit = (date, limit, id) => ({
+export const setLimit = (args) => ({
     type: 'SET_LIMIT',
-    payload: { updated: date, limit: limit, id: id }
+    payload: { updated: args.updated, limit: args.limit, id: args.habitId }
 });
 
-export const resetCount = (date, id) => ({
+export const resetCount = (args) => ({
     type: 'RESET_COUNT',
-    payload: { updated: date, id: id }
+    payload: { updated: args.updated, id: args.habitId }
 });
 
-export const createHabit = (date, title, limit) => ({
+export const createHabit = (args) => ({
     type: 'CREATE_HABIT',
-    payload: { updated: date, title: title, limit: limit }
+    payload: { updated: args.updated, title: args.title, limit: args.limit }
 });
 
