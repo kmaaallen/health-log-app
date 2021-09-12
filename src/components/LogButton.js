@@ -33,7 +33,7 @@ export const LogButton = (props) => {
         if (new Date(props.lastUpdated) < midnight) {
             props.resetCount();
         }
-    });
+    }, []);
 
     return (
         <Card elevation={3} id={props.id} style={styles(props.theme).card}>
