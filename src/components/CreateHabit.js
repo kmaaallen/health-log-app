@@ -51,7 +51,7 @@ export const CreateHabit = (props) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        createHabit: (title, limit) => dispatch(createHabit((new Date()).valueOf(), title, limit))
+        createHabit: (title, limit) => dispatch(createHabit({ updated: (new Date()).valueOf(), title: title, limit: limit }))
     }
 }
 

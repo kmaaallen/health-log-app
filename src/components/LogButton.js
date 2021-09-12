@@ -79,9 +79,9 @@ function mapStateToProps(state, ownProps) {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        incrementCount: () => dispatch(incrementCount((new Date()).valueOf(), ownProps.id)),
-        resetCount: () => dispatch(resetCount((new Date()).valueOf(), ownProps.id)),
-        updateLimit: (limit) => dispatch(setLimit((new Date()).valueOf(), limit, ownProps.id))
+        incrementCount: () => dispatch(incrementCount({ updated: (new Date()).valueOf(), habitId: ownProps.id })),
+        resetCount: () => dispatch(resetCount({ updated: (new Date()).valueOf(), habitId: ownProps.id })),
+        updateLimit: (limit) => dispatch(setLimit({ updated: (new Date()).valueOf(), limit: limit, habitId: ownProps.id }))
     }
 }
 
