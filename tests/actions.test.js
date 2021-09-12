@@ -15,7 +15,7 @@ describe('test incrementCount action', () => {
                 'payload': { updated: 1612235045000 }
             },
         ];
-        store.dispatch(incrementCount(new Date('02 Feb 2021 03:04:05 GMT').valueOf()));
+        store.dispatch(incrementCount({ updated: new Date('02 Feb 2021 03:04:05 GMT').valueOf() }));
         expect(store.getActions()).toEqual(expectedActions);
     });
 
@@ -32,7 +32,7 @@ describe('test setLimit action', () => {
                 'payload': { updated: 1612235045000, limit: 3, id: 1 }
             },
         ];
-        store.dispatch(setLimit(new Date('02 Feb 2021 03:04:05 GMT').valueOf(), 3, 1));
+        store.dispatch(setLimit({ updated: new Date('02 Feb 2021 03:04:05 GMT').valueOf(), limit: 3, habitId: 1 }));
         expect(store.getActions()).toEqual(expectedActions);
     });
 
@@ -49,7 +49,7 @@ describe('test resetCount action', () => {
                 'payload': { updated: 1612235045000, id: 1 }
             },
         ];
-        store.dispatch(resetCount(new Date('02 Feb 2021 03:04:05 GMT').valueOf(), 1));
+        store.dispatch(resetCount({ updated: new Date('02 Feb 2021 03:04:05 GMT').valueOf(), habitId: 1 }));
         expect(store.getActions()).toEqual(expectedActions);
     });
 
@@ -66,7 +66,7 @@ describe('test createHabit action', () => {
                 'payload': { updated: 1612235045000, title: 'Test Habit', limit: 3 }
             },
         ];
-        store.dispatch(createHabit(new Date('02 Feb 2021 03:04:05 GMT').valueOf(), 'Test Habit', 3));
+        store.dispatch(createHabit({ updated: new Date('02 Feb 2021 03:04:05 GMT').valueOf(), title: 'Test Habit', limit: 3 }));
         expect(store.getActions()).toEqual(expectedActions);
     });
 
