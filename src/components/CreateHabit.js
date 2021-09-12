@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { withTheme, Button, Dialog, TextInput, Portal, Surface } from 'react-native-paper';
 //REDUX
@@ -12,57 +12,41 @@ const styles = theme => StyleSheet.create({
     },
 });
 
-export class CreateHabit extends Component {
-    constructor(props) {
-        super(props);
-        this.state = { visible: false, tempTitle: '', tempLimit: '' };
-        this.showDialog = this.showDialog.bind(this);
-        this.hideDialog = this.hideDialog.bind(this);
-        this.createHabit = this.createHabit.bind(this);
-        this.setTempTitle = this.setTempTitle.bind(this);
-        this.setTempLimit = this.setTempLimit.bind(this);
+export const CreateHabit = (props) => {
+    const [showDialog, setShowDialog] = useState(false);
+    const [title, setTitle] = useState('');
+    const [limit, setLimit] = useState('');
+
+    const createHabit = () => {
+        props.createHabit(title, limit);
+        setShowDialog(false);
     }
 
-    showDialog = () => this.setState({ visible: true });
+    return (
+        <Surface elevation={4} style={styles(props.theme).surface}>
+            <Button onPress={() => setShowDialog(true)}>Create new habit</Button>
+            <Portal>
+                <Dialog visible={showDialog} onDismiss={() => setShowDialog(false)}>
+                    <Dialog.Title>Create a habit</Dialog.Title>
+                    <Dialog.Content>
+                        <TextInput
+                            label="Title"
+                            onChangeText={(input) => setTitle(input)}
+                        />
+                        <TextInput
+                            label="Daily limit"
+                            onChangeText={(input) => setLimit(input)}
+                        />
+                    </Dialog.Content>
+                    <Dialog.Actions>
+                        <Button onPress={() => setShowDialog(false)}>Cancel</Button>
+                        <Button onPress={createHabit}>Ok</Button>
+                    </Dialog.Actions>
+                </Dialog>
+            </Portal>
+        </Surface>
 
-    hideDialog = () => this.setState({ visible: false });
-
-    setTempTitle = (title) => { this.setState({ tempTitle: title }) };
-
-    setTempLimit = (limit) => { this.setState({ tempLimit: limit }) };
-
-    createHabit = () => {
-        this.props.createHabit(this.state.tempTitle, this.state.tempLimit);
-        this.hideDialog();
-    }
-
-    render() {
-        return (
-            <Surface elevation={4} style={styles(this.props.theme).surface}>
-                <Button onPress={this.showDialog}>Create new habit</Button>
-                <Portal>
-                    <Dialog visible={this.state.visible} onDismiss={this.hideDialog}>
-                        <Dialog.Title>Create a habit</Dialog.Title>
-                        <Dialog.Content>
-                            <TextInput
-                                label="Title"
-                                onChangeText={(title) => this.setTempTitle(title)}
-                            />
-                            <TextInput
-                                label="Daily limit"
-                                onChangeText={(limit) => this.setTempLimit(limit)}
-                            />
-                        </Dialog.Content>
-                        <Dialog.Actions>
-                            <Button onPress={this.hideDialog}>Cancel</Button>
-                            <Button onPress={this.createHabit}>Ok</Button>
-                        </Dialog.Actions>
-                    </Dialog>
-                </Portal>
-            </Surface>
-
-        );
-    }
+    );
 };
 
 const mapDispatchToProps = (dispatch) => {
