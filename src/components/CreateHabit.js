@@ -32,10 +32,12 @@ export const CreateHabit = (props) => {
                         <TextInput
                             label="Title"
                             onChangeText={(input) => setTitle(input)}
+                            testID="title-input"
                         />
                         <TextInput
                             label="Daily limit"
                             onChangeText={(input) => setLimit(input)}
+                            testID="limit-input"
                         />
                     </Dialog.Content>
                     <Dialog.Actions>
