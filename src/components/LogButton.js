@@ -53,6 +53,7 @@ export const LogButton = (props) => {
                         <TextInput
                             label="Daily limit"
                             onChangeText={(input) => setLimit(input)}
+                            testID='daily-limit'
                         />
                     </Dialog.Content>
                     <Dialog.Actions>
