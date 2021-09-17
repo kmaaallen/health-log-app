@@ -1,1 +1,1 @@
-# health-log-app
+# React Native Habit Tracking App
