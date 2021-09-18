@@ -1,3 +1,3 @@
-export const hasReachedDailyLimitSelector = (state) => {
-    return state.count.count >= state.count.limit;
+export const hasReachedDailyLimitSelector = (state, id) => {
+    return state.habits[id].count >= state.habits[id].limit;
 }

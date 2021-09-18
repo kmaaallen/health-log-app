@@ -1,91 +1,89 @@
-import React, { Component } from 'react';
-import { Card, Button, Title, Paragraph, Dialog, TextInput } from 'react-native-paper';
+import React, { useState, useEffect } from 'react';
+import { withTheme, Card, Button, Title, Paragraph, Dialog, TextInput, Portal } from 'react-native-paper';
 import { StyleSheet } from 'react-native';
 //REDUX
 import { connect } from 'react-redux';
 import { incrementCount, resetCount, setLimit } from '../redux/actions';
 import { hasReachedDailyLimitSelector } from '../redux/selectors';
 
-const styles = StyleSheet.create({
-    container: {
-        height: 150,
+const styles = theme => StyleSheet.create({
+    card: {
+        margin: theme.spacing.medium,
+    },
+    button: {
+        width: '48%',
+        marginHorizontal: '1%'
     }
 });
 
 //TODO: NUMBER VALIDATION
 
-export class LogButton extends Component {
-    constructor(props) {
-        super(props);
-        this.state = { visible: false, tempLimit: 0 };
-        this.showDialog = this.showDialog.bind(this);
-        this.hideDialog = this.hideDialog.bind(this);
-        this.setLimit = this.setLimit.bind(this);
+export const LogButton = (props) => {
+    const [showDialog, setShowDialog] = useState(false);
+    const [limit, setLimit] = useState('');
+
+    const updateLimit = () => {
+        props.updateLimit(limit);
+        setShowDialog(false);
     }
 
-    showDialog = () => this.setState({ visible: true });
-
-    hideDialog = () => this.setState({ visible: false });
-
-    setTempLimit = (limit) => { this.setState({ tempLimit: limit }) };
-
-    setLimit = () => {
-        this.props.setLimit(this.state.tempLimit);
-        this.hideDialog();
-    }
-
-    componentDidMount() {
+    useEffect(() => {
         var midnight = new Date();
         midnight.setUTCHours(0, 0, 0, 0);
-        if (new Date(this.props.updated) < midnight) {
-            this.props.resetCount();
+        if (new Date(props.lastUpdated) < midnight) {
+            props.resetCount();
         }
-    }
+    }, []);
 
-    render() {
-        return (
-            <Card style={styles.container}>
-                <Card.Content>
-                    <Title>My Habit</Title>
-                    <Paragraph>{this.props.count} / {this.props.limit}</Paragraph>
-                    <Paragraph>Last logged: {this.props.updatedDisplay}</Paragraph>
-                </Card.Content>
-                <Card.Actions>
-                    <Button mode='contained' disabled={this.props.hasReachedLimit} onPress={this.props.incrementCount}>+</Button>
-                    <Button mode='contained' onPress={this.showDialog}>Set Limit</Button>
-                </Card.Actions>
-                <Dialog visible={this.state.visible} onDismiss={this.hideDialog}>
+    return (
+        <Card elevation={3} id={props.id} style={styles(props.theme).card}>
+            <Card.Content>
+                <Title>{props.habit.title}</Title>
+                <Paragraph>{props.habit.count} / {props.habit.limit}</Paragraph>
+                <Paragraph>Last logged: {props.updatedDisplay}</Paragraph>
+            </Card.Content>
+            <Card.Actions>
+                <Button style={styles(props.theme).button} mode='contained' disabled={props.hasReachedLimit} onPress={props.incrementCount}>+</Button>
+                <Button style={styles(props.theme).button} mode='contained' onPress={() => setShowDialog(true)}>Set Limit</Button>
+            </Card.Actions>
+            <Portal>
+                <Dialog visible={showDialog} onDismiss={() => setShowDialog(false)}>
                     <Dialog.Title>Choose a daily limit</Dialog.Title>
                     <Dialog.Content>
                         <TextInput
                             label="Daily limit"
-                            onChangeText={(limit) => this.setTempLimit(limit)}
+                            onChangeText={(input) => setLimit(input)}
+                            testID='daily-limit'
                         />
                     </Dialog.Content>
                     <Dialog.Actions>
-                        <Button onPress={this.hideDialog}>Cancel</Button>
-                        <Button onPress={this.setLimit}>Ok</Button>
+                        <Button onPress={() => setShowDialog(false)}>Cancel</Button>
+                        <Button onPress={updateLimit}>Ok</Button>
                     </Dialog.Actions>
                 </Dialog>
-            </Card >
-        );
-    }
+            </Portal>
+        </Card >
+    );
 };
 
-const mapStateToProps = (state) => ({
-    count: state.count.count,
-    updated: state.count.updated,
-    updatedDisplay: state.count.updated ? (new Date(state.count.updated)).toLocaleString() : 'Never',
-    hasReachedLimit: hasReachedDailyLimitSelector(state),
-    limit: state.count.limit
-})
-
-const mapDispatchToProps = (dispatch) => {
+function mapStateToProps(state, ownProps) {
+    const habit = state.habits.habits[ownProps.id];
+    const lastIncrementLog = habit ? habit.log.filter((log) => { return log.info.type == 'increment' }).slice(-1) : [];
+    var event = lastIncrementLog[0];
     return {
-        incrementCount: () => dispatch(incrementCount((new Date()).valueOf())),
-        resetCount: () => dispatch(resetCount()),
-        setLimit: (limit) => dispatch(setLimit(limit))
+        habit: habit,
+        lastUpdated: event ? event.updated : null,
+        updatedDisplay: event ? (new Date(event.updated)).toLocaleString() : 'Never',
+        hasReachedLimit: habit ? hasReachedDailyLimitSelector(state.habits, ownProps.id) : {},
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LogButton);
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        incrementCount: () => dispatch(incrementCount({ updated: (new Date()).valueOf(), habitId: ownProps.id })),
+        resetCount: () => dispatch(resetCount({ updated: (new Date()).valueOf(), habitId: ownProps.id })),
+        updateLimit: (limit) => dispatch(setLimit({ updated: (new Date()).valueOf(), limit: limit, habitId: ownProps.id }))
+    }
+}
+
+export default withTheme(connect(mapStateToProps, mapDispatchToProps)(LogButton));
