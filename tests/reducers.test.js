@@ -1,12 +1,12 @@
-import countReducer from '../src/redux/reducers';
+import habitReducer from '../src/redux/reducers';
 
 describe('test countReducer', () => {
     it('should return empty habits object as initial state', () => {
-        expect(countReducer(undefined, {})).toEqual({ habits: {} });
+        expect(habitReducer(undefined, {})).toEqual({ habits: {} });
     });
     it('should handle INCREMENT_COUNT', () => {
         expect(
-            countReducer({
+            habitReducer({
                 habits: {
                     1: {
                         id: 1,
@@ -44,7 +44,7 @@ describe('test countReducer', () => {
     });
     it('should handle SET_LIMIT', () => {
         expect(
-            countReducer({
+            habitReducer({
                 habits: {
                     1: {
                         id: 1,
@@ -82,7 +82,7 @@ describe('test countReducer', () => {
     });
     it('should handle RESET_COUNT', () => {
         expect(
-            countReducer({
+            habitReducer({
                 habits: {
                     1: {
                         id: 1,
@@ -120,7 +120,7 @@ describe('test countReducer', () => {
     });
     it('should handle CREATE_HABIT', () => {
         expect(
-            countReducer({
+            habitReducer({
                 habits: {}
             }, {
                 type: 'CREATE_HABIT',
@@ -137,5 +137,5 @@ describe('test countReducer', () => {
                 },
             }
         });
-    })
+    });
 });
