@@ -3,7 +3,7 @@ import { withTheme, Card, Button, Title, Paragraph, Dialog, TextInput, Portal } 
 import { StyleSheet } from 'react-native';
 //REDUX
 import { connect } from 'react-redux';
-import { incrementCount, resetCount, setLimit } from '../redux/actions';
+import { incrementCount, resetCount, setLimit, deleteHabit } from '../redux/actions';
 import { hasReachedDailyLimitSelector } from '../redux/selectors';
 
 const styles = theme => StyleSheet.create({
@@ -11,7 +11,7 @@ const styles = theme => StyleSheet.create({
         margin: theme.spacing.medium,
     },
     button: {
-        width: '48%',
+        width: 'auto',
         marginHorizontal: '1%'
     }
 });
@@ -19,12 +19,18 @@ const styles = theme => StyleSheet.create({
 //TODO: NUMBER VALIDATION
 
 export const LogButton = (props) => {
-    const [showDialog, setShowDialog] = useState(false);
+    const [showLimitDialog, setShowLimitDialog] = useState(false);
+    const [showDeleteDialog, setShowDeleteDialog] = useState(false);
     const [limit, setLimit] = useState('');
 
     const updateLimit = () => {
         props.updateLimit(limit);
-        setShowDialog(false);
+        setShowLimitDialog(false);
+    }
+
+    const deleteHabit = () => {
+        props.deleteHabit();
+        setShowDeleteDialog(false);
     }
 
     useEffect(() => {
@@ -44,10 +50,11 @@ export const LogButton = (props) => {
             </Card.Content>
             <Card.Actions>
                 <Button style={styles(props.theme).button} mode='contained' disabled={props.hasReachedLimit} onPress={props.incrementCount}>+</Button>
-                <Button style={styles(props.theme).button} mode='contained' onPress={() => setShowDialog(true)}>Set Limit</Button>
+                <Button style={styles(props.theme).button} mode='contained' onPress={() => setShowLimitDialog(true)}>Set Limit</Button>
+                <Button style={styles(props.theme).button} mode='contained' onPress={() => setShowDeleteDialog(true)}>Delete</Button>
             </Card.Actions>
             <Portal>
-                <Dialog visible={showDialog} onDismiss={() => setShowDialog(false)}>
+                <Dialog visible={showLimitDialog} onDismiss={() => setShowLimitDialog(false)}>
                     <Dialog.Title>Choose a daily limit</Dialog.Title>
                     <Dialog.Content>
                         <TextInput
@@ -57,8 +64,15 @@ export const LogButton = (props) => {
                         />
                     </Dialog.Content>
                     <Dialog.Actions>
-                        <Button onPress={() => setShowDialog(false)}>Cancel</Button>
+                        <Button onPress={() => setShowLimitDialog(false)}>Cancel</Button>
                         <Button onPress={updateLimit}>Ok</Button>
+                    </Dialog.Actions>
+                </Dialog>
+                <Dialog visible={showDeleteDialog} onDismiss={() => setShowDeleteDialog(false)}>
+                    <Dialog.Title>Are you sure?</Dialog.Title>
+                    <Dialog.Actions>
+                        <Button onPress={() => setShowDeleteDialog(false)}>Cancel</Button>
+                        <Button onPress={deleteHabit}>Yes</Button>
                     </Dialog.Actions>
                 </Dialog>
             </Portal>
@@ -82,7 +96,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         incrementCount: () => dispatch(incrementCount({ updated: (new Date()).valueOf(), habitId: ownProps.id })),
         resetCount: () => dispatch(resetCount({ updated: (new Date()).valueOf(), habitId: ownProps.id })),
-        updateLimit: (limit) => dispatch(setLimit({ updated: (new Date()).valueOf(), limit: limit, habitId: ownProps.id }))
+        updateLimit: (limit) => dispatch(setLimit({ updated: (new Date()).valueOf(), limit: limit, habitId: ownProps.id })),
+        deleteHabit: () => dispatch(deleteHabit({ habitId: ownProps.id }))
     }
 }
 

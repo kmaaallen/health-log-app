@@ -1,6 +1,6 @@
 import habitReducer from '../src/redux/reducers';
 
-describe('test countReducer', () => {
+describe('test habitReducer', () => {
     it('should return empty habits object as initial state', () => {
         expect(habitReducer(undefined, {})).toEqual({ habits: {} });
     });
@@ -138,4 +138,24 @@ describe('test countReducer', () => {
             }
         });
     });
+    it('should handle DELETE_HABIT', () => {
+        expect(
+            habitReducer({
+                habits: {
+                    1: {
+                        id: 1,
+                        title: 'My test habit',
+                        count: 0,
+                        limit: 3,
+                        log: [{ updated: 1612235045000, info: { type: 'created' } }]
+                    }
+                }
+            }, {
+                type: 'DELETE_HABIT',
+                payload: { id: 1 }
+            })
+        ).toEqual({
+            habits: {}
+        });
+    })
 });

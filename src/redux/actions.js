@@ -18,3 +18,7 @@ export const createHabit = (args) => ({
     payload: { updated: args.updated, title: args.title, limit: args.limit }
 });
 
+export const deleteHabit = (args) => ({
+    type: 'DELETE_HABIT',
+    payload: { id: args.habitId }
+});
