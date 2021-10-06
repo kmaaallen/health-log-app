@@ -76,6 +76,12 @@ const habitReducer = (state = initialState, action) => {
                 }
             }
         }
+        case 'DELETE_HABIT': {
+            const id = action.payload.id;
+            const stateCopy = Object.assign({}, { ...state, habits: { ...state.habits } });
+            delete (stateCopy.habits[id]);
+            return stateCopy;
+        }
         default: {
             return state;
         }

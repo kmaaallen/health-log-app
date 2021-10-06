@@ -6,14 +6,13 @@ import LogButton from '../src/components/LogButton';
 // Testing
 import '@testing-library/jest-dom/extend-expect';
 import { render, fireEvent, waitFor } from '@testing-library/react-native';
-import renderer from 'react-test-renderer';
 import { createTestStore } from './utils';
 
 //TODO - Should not be using test IDs if possible as not real user experience.
-// but so far unable to get React Native Paper buttons in any other way
+// but so far unable to get React Native Paper buttons in any other way if no text
 
 describe('<LogButton />', () => {
-    let store;
+    let store, getByText, queryByText, getByTestId, tree
     var toLocaleString = Date.prototype.toLocaleString;
 
     beforeEach(() => {
@@ -33,7 +32,12 @@ describe('<LogButton />', () => {
         store = createTestStore(initialState);
         Date.prototype.toLocaleString = function () {
             return '02/02/2021, 03:04:05';
-        }
+        };
+        const component = render(<Provider store={store}><PaperProvider theme={theme}><LogButton id={1} key={1} /></PaperProvider></Provider>);
+        getByText = component.getByText;
+        queryByText = component.queryByText;
+        getByTestId = component.getByTestId;
+        tree = component.toJSON();
     });
 
     afterAll(() => {
@@ -41,29 +45,24 @@ describe('<LogButton />', () => {
     });
 
     it('has 1 child', () => {
-        const tree = renderer.create(<Provider store={store}><PaperProvider theme={theme}><LogButton id={1} key={1} /></PaperProvider></Provider>).toJSON();
         expect(tree.children.length).toBe(1);
     });
 
     it('renders correctly', () => {
-        const tree = renderer.create(<Provider store={store}><PaperProvider theme={theme}><LogButton id={1} key={1} /></PaperProvider></Provider>).toJSON();
         expect(tree).toMatchSnapshot();
     });
 
     it('resets habit count to 0 on first rendering ', () => {
-        render(<Provider store={store}><PaperProvider theme={theme}><LogButton id={1} key={1} /></PaperProvider></Provider>);
         expect(store.getState().habits.habits[1].count).toBe(0);
     });
 
     it('displays count / limit and last updated', () => {
-        const { getByText } = render(<Provider store={store}><PaperProvider theme={theme}><LogButton id={1} key={1} /></PaperProvider></Provider>);
         const display = getByText('0 / 2');
         const updated = getByText('Last logged: 02/02/2021, 03:04:05');
         expect(display && updated).toBeTruthy();
     });
 
     it('renders + button which increments count when clicked and is disabled when limit reached', () => {
-        const { getByText } = render(<Provider store={store}><PaperProvider theme={theme}><LogButton id={1} key={1} /></PaperProvider></Provider>);
         const increment = getByText('+');
         expect(increment).toBeTruthy();
         expect(store.getState().habits.habits[1].count).toBe(0);
@@ -78,7 +77,6 @@ describe('<LogButton />', () => {
     });
 
     it('renders set limit button which allows user to update limit', async () => {
-        const { getByText, getByTestId, queryByText } = render(<Provider store={store}><PaperProvider theme={theme}><LogButton id={1} key={1} /></PaperProvider></Provider>);
         const button = getByText('Set Limit');
         expect(button).toBeTruthy();
         expect(store.getState().habits.habits[1].limit).toBe(2);
@@ -90,4 +88,14 @@ describe('<LogButton />', () => {
         expect(store.getState().habits.habits[1].limit).toBe('4')
     });
 
+    it('renders delete button which opens a delete modal', async () => {
+        const deleteButton = getByText('Delete');
+        expect(deleteButton).toBeTruthy();
+        expect(Object.keys(store.getState().habits.habits).length).toBe(1);
+        fireEvent.press(deleteButton);
+        await waitFor(() => queryByText('Are you sure?'));
+        const confirm = getByText('Yes');
+        const cancel = getByText('Cancel');
+        expect(confirm && cancel).toBeTruthy();
+    })
 });
