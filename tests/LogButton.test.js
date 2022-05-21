@@ -24,6 +24,7 @@ describe('<LogButton />', () => {
                         title: 'My First Habit',
                         count: 1,
                         limit: 2,
+                        category: 'Health',
                         log: [{ updated: 1612235045000, info: { type: 'created' } }, { updated: 1612235045000, info: { type: 'increment' } }]
                     }
                 }
@@ -56,10 +57,11 @@ describe('<LogButton />', () => {
         expect(store.getState().habits.habits[1].count).toBe(0);
     });
 
-    it('displays count / limit and last updated', () => {
+    it('displays count / limit, category and last updated', () => {
         const display = getByText('0 / 2');
         const updated = getByText('Last logged: 02/02/2021, 03:04:05');
-        expect(display && updated).toBeTruthy();
+        const category = getByText('Health');
+        expect(display && updated && category).toBeTruthy();
     });
 
     it('renders + button which increments count when clicked and is disabled when limit reached', () => {

@@ -14,11 +14,12 @@ const habitReducer = (state = initialState, action) => {
             const id = state.habits ? Object.keys(state.habits).length + 1 : 1;
             const title = action.payload.title;
             const limit = action.payload.limit;
+            const category = action.payload.category;
             return {
                 ...state,
                 habits: {
                     ...state.habits,
-                    [id]: { id: id, title: title, count: 0, limit: limit, log: [{ updated: action.payload.updated, info: { type: 'created' } }] }
+                    [id]: { id: id, title: title, count: 0, limit: limit, category: category, log: [{ updated: action.payload.updated, info: { type: 'created' } }] }
                 }
             }
         }

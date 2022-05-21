@@ -96,6 +96,30 @@ exports[`<LogButton /> renders correctly 1`] = `
           My First Habit
         </Text>
         <Text
+          numberOfLines={1}
+          style={
+            Object {
+              "alignSelf": "flex-end",
+              "backgroundColor": "#f50057",
+              "borderRadius": 10,
+              "color": "#ffffff",
+              "fontFamily": "System",
+              "fontSize": 10,
+              "fontWeight": "400",
+              "height": 20,
+              "lineHeight": 20,
+              "minWidth": 20,
+              "opacity": 1,
+              "overflow": "hidden",
+              "paddingHorizontal": 4,
+              "textAlign": "center",
+              "textAlignVertical": "center",
+            }
+          }
+        >
+          Health
+        </Text>
+        <Text
           style={
             Array [
               Object {

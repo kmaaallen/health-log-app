@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { withTheme, Card, Button, Title, Paragraph, Dialog, TextInput, Portal } from 'react-native-paper';
-import { StyleSheet } from 'react-native';
+import { withTheme, Card, Button, Title, Paragraph, Dialog, TextInput, Portal, Chip } from 'react-native-paper';
+import { StyleSheet, View } from 'react-native';
 //REDUX
 import { connect } from 'react-redux';
 import { incrementCount, resetCount, setLimit, deleteHabit } from '../redux/actions';
@@ -13,6 +13,11 @@ const styles = theme => StyleSheet.create({
     button: {
         width: 'auto',
         marginHorizontal: '1%'
+    },
+    chipView: {
+        flex: 1,
+        flexDirection: 'column',
+        alignItems: 'flex-end',
     }
 });
 
@@ -45,6 +50,7 @@ export const LogButton = (props) => {
         <Card elevation={3} id={props.id} style={styles(props.theme).card}>
             <Card.Content>
                 <Title>{props.habit.title}</Title>
+                {props.habit.category ? <View style={styles(props.theme).chipView}><Chip>{props.habit.category}</Chip></View> : null}
                 <Paragraph>{props.habit.count} / {props.habit.limit}</Paragraph>
                 <Paragraph>Last logged: {props.updatedDisplay}</Paragraph>
             </Card.Content>

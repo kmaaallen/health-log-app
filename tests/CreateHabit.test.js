@@ -40,15 +40,47 @@ describe('<CreateHabit />', () => {
         // Dialog with form present
         const title = getByTestId('title-input');
         const limit = getByTestId('limit-input');
+        const category = getByTestId('category-input');
         const submit = getByText('Ok');
-        expect(title && limit).toBeTruthy();
+        expect(title && limit && category).toBeTruthy();
         // change form values and submit form
         fireEvent.changeText(title, 'My first habit');
         fireEvent.changeText(limit, '3');
-        fireEvent.press(submit);
+        fireEvent.changeText(category, 'Health');
+        await waitFor(() => {
+            fireEvent.press(submit);
+        });
         // Expect store to be updated with one habit
-        expect(Object.keys(store.getState().habits).length).toBe(1);
+        expect(Object.keys(store.getState().habits.habits).length).toBe(1);
         expect(store.getState().habits.habits[1].title).toBe('My first habit');
         expect(store.getState().habits.habits[1].limit).toBe('3');
-    })
+        expect(store.getState().habits.habits[1].category).toBe('Health');
+    }),
+        it('validates errors correctly in create new habit form', async () => {
+            // Paper provider component wrapper required for react-native-paper, provided at app level
+            const { getByText, getByTestId, queryByText } = render(<Provider store={store}><PaperProvider theme={theme}><CreateHabit /></PaperProvider></Provider>);
+            const button = getByText('Create new habit');
+            // Expect store to be empty at this stage
+            expect(store.getState().habits).toEqual({ "habits": {} });
+            // Click button
+            fireEvent.press(button);
+            await waitFor(() => queryByText('Create a habit'));
+            const limit = getByTestId('limit-input');
+            const submit = getByText('Ok');
+            await waitFor(() => {
+                fireEvent.press(submit);
+            });
+            // Expect store to not be updated and error messages present
+            expect(Object.keys(store.getState().habits.habits).length).toBe(0);
+            expect(getByText('Title is required')).toBeTruthy();
+            expect(getByText('Limit is required')).toBeTruthy();
+            // change limit valueto check other error message and submit form
+            fireEvent.changeText(limit, '0');
+            await waitFor(() => {
+                fireEvent.press(submit);
+            });
+            expect(Object.keys(store.getState().habits.habits).length).toBe(0);
+            expect(getByText('Title is required')).toBeTruthy();
+            expect(getByText('Limit must be greater than zero')).toBeTruthy();
+        })
 });
