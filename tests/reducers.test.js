@@ -124,7 +124,7 @@ describe('test habitReducer', () => {
                 habits: {}
             }, {
                 type: 'CREATE_HABIT',
-                payload: { updated: new Date('02 Feb 2021 03:04:05 GMT').valueOf(), title: 'My test habit', limit: 3 }
+                payload: { updated: new Date('02 Feb 2021 03:04:05 GMT').valueOf(), title: 'My test habit', limit: 3, category: 'Health' }
             })
         ).toEqual({
             habits: {
@@ -133,6 +133,7 @@ describe('test habitReducer', () => {
                     title: 'My test habit',
                     count: 0,
                     limit: 3,
+                    category: 'Health',
                     log: [{ updated: 1612235045000, info: { type: 'created' } }]
                 },
             }
@@ -147,6 +148,7 @@ describe('test habitReducer', () => {
                         title: 'My test habit',
                         count: 0,
                         limit: 3,
+                        category: 'Health',
                         log: [{ updated: 1612235045000, info: { type: 'created' } }]
                     }
                 }

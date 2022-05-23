@@ -2,6 +2,7 @@
 
 exports[`<CreateHabit /> renders correctly 1`] = `
 <View
+  collapsable={false}
   elevation={4}
   style={
     Object {
@@ -19,6 +20,7 @@ exports[`<CreateHabit /> renders correctly 1`] = `
   }
 >
   <View
+    collapsable={false}
     style={
       Object {
         "backgroundColor": "transparent",
@@ -28,6 +30,13 @@ exports[`<CreateHabit /> renders correctly 1`] = `
         "borderWidth": 0,
         "elevation": 0,
         "minWidth": 64,
+        "shadowColor": "#000000",
+        "shadowOffset": Object {
+          "height": 0,
+          "width": 0,
+        },
+        "shadowOpacity": 0,
+        "shadowRadius": 0,
       }
     }
   >
@@ -35,7 +44,7 @@ exports[`<CreateHabit /> renders correctly 1`] = `
       accessibilityRole="button"
       accessibilityState={
         Object {
-          "disabled": undefined,
+          "disabled": false,
         }
       }
       accessible={true}

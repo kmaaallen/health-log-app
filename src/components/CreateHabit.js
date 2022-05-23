@@ -1,25 +1,45 @@
 import React, { useState } from 'react';
-import { StyleSheet } from 'react-native';
-import { withTheme, Button, Dialog, TextInput, Portal, Surface } from 'react-native-paper';
+import { StyleSheet, View } from 'react-native';
+import { withTheme, Button, Dialog, TextInput, Portal, Surface, HelperText } from 'react-native-paper';
 //REDUX
 import { connect } from 'react-redux';
 import { createHabit } from '../redux/actions';
+//FORM
+import { useForm, Controller } from "react-hook-form";
+//COMPONENTS
+import { Picker } from "@react-native-picker/picker";
 
 const styles = theme => StyleSheet.create({
     surface: {
         padding: theme.spacing.medium,
         margin: theme.spacing.medium,
     },
+    pickerView: {
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 4,
+    }
 });
+
+//TODO CHECK HOW IT LOOKS ON ANDROID
+//TODO STYLE ON ALL DEVICES
+//TODO ALLOW MULTIPLE CATEGORIES? SINGLE DROPDOWN WITH NEW OR EXISTING?
+//TODO ALLOW UPDATE OF CATEGORIES
+//LOG PAGE RE-ORDER AND FILTER HABITS
 
 export const CreateHabit = (props) => {
     const [showDialog, setShowDialog] = useState(false);
-    const [title, setTitle] = useState('');
-    const [limit, setLimit] = useState('');
 
-    const createHabit = () => {
-        props.createHabit(title, limit);
+    const { control, reset, handleSubmit, formState: { errors }, register } = useForm({
+        mode: 'onSubmit',
+    });
+
+    const createHabit = (formData) => {
+        var category;
+        formData.newCategory ? category = formData.newCategory : category = formData.category;
+        props.createHabit(formData.title, formData.limit, category);
         setShowDialog(false);
+        reset();
     }
 
     return (
@@ -29,32 +49,87 @@ export const CreateHabit = (props) => {
                 <Dialog visible={showDialog} onDismiss={() => setShowDialog(false)}>
                     <Dialog.Title>Create a habit</Dialog.Title>
                     <Dialog.Content>
-                        <TextInput
-                            label="Title"
-                            onChangeText={(input) => setTitle(input)}
-                            testID="title-input"
+                        <Controller
+                            control={control}
+                            render={({ field: { onChange, value } }) => (
+                                <TextInput
+                                    label="Title"
+                                    onChangeText={value => onChange(value)}
+                                    value={value || ''} // to remove uncontrolled to controlled error
+                                    testID="title-input"
+                                />
+                            )}
+                            name="title"
+                            rules={{ required: true }}
                         />
-                        <TextInput
-                            label="Daily limit"
-                            onChangeText={(input) => setLimit(input)}
-                            testID="limit-input"
+                        {errors.title && <HelperText type="error" >Title is required</HelperText>}
+                        <Controller
+                            control={control}
+                            render={({ field: { onChange, value } }) => (
+                                <TextInput
+                                    label="Daily limit"
+                                    keyboardType="numeric"
+                                    onChangeText={value => onChange(value)}
+                                    value={value || ''}
+                                    testID="limit-input"
+                                />
+                            )}
+                            name="limit"
+                            rules={{ required: true, min: 1 }}
                         />
+                        {errors.limit && <HelperText type="error">{errors.limit.type == 'min' ? 'Limit must be greater than zero' : 'Limit is required'}</HelperText>}
+                        <Controller
+                            control={control}
+                            render={({ field: { onChange, value } }) => (
+                                <TextInput
+                                    label="New Category"
+                                    onChangeText={value => onChange(value)}
+                                    value={value || ''}
+                                    testID="new-category"
+                                    placeholder="Create a new category"
+                                />
+                            )}
+                            name="newCategory"
+                            rules={{ required: false }}
+                        />
+                        {props.categories.length > 0 ? <Controller
+                            control={control}
+                            render={({ field: { onChange, value } }) => (
+                                <View style={styles(props.theme).pickerView}>
+                                    <Picker
+                                        selectedValue={value}
+                                        onValueChange={value => onChange(value)}
+                                        itemStyle={{ fontSize: 16 }}
+                                        testID="category-input"
+                                    >
+                                        <Picker.Item label="Please select a category" value="" key="empty" />
+                                        {props.categories.map((item) => (<Picker.Item key={item} label={item} value={item} />))}
+                                    </Picker>
+                                </View>
+                            )}
+                            name="category"
+                            rules={{ required: false }}
+                        /> : null}
                     </Dialog.Content>
                     <Dialog.Actions>
                         <Button onPress={() => setShowDialog(false)}>Cancel</Button>
-                        <Button onPress={createHabit}>Ok</Button>
+                        <Button onPress={handleSubmit(createHabit)}>Ok</Button>
                     </Dialog.Actions>
                 </Dialog>
             </Portal>
-        </Surface>
+        </Surface >
 
     );
 };
 
+const mapStateToProps = (state) => ({
+    categories: [...new Set((Object.values(state.habits.habits)).map((item) => item.category))].filter(item => item != "" && item != undefined).sort(),
+})
+
 const mapDispatchToProps = (dispatch) => {
     return {
-        createHabit: (title, limit) => dispatch(createHabit({ updated: (new Date()).valueOf(), title: title, limit: limit }))
+        createHabit: (title, limit, category) => dispatch(createHabit({ updated: (new Date()).valueOf(), title: title, limit: limit, category: category }))
     }
 }
 
-export default withTheme(connect(null, mapDispatchToProps)(CreateHabit));
+export default withTheme(connect(mapStateToProps, mapDispatchToProps)(CreateHabit));

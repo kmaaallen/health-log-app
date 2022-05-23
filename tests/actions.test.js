@@ -63,10 +63,10 @@ describe('test createHabit action', () => {
         const expectedActions = [
             {
                 'type': 'CREATE_HABIT',
-                'payload': { updated: 1612235045000, title: 'Test Habit', limit: 3 }
+                'payload': { updated: 1612235045000, title: 'Test Habit', limit: 3, category: 'Health' }
             },
         ];
-        store.dispatch(createHabit({ updated: new Date('02 Feb 2021 03:04:05 GMT').valueOf(), title: 'Test Habit', limit: 3 }));
+        store.dispatch(createHabit({ updated: new Date('02 Feb 2021 03:04:05 GMT').valueOf(), title: 'Test Habit', limit: 3, category: 'Health' }));
         expect(store.getActions()).toEqual(expectedActions);
     });
 
