@@ -23,7 +23,8 @@ const styles = theme => StyleSheet.create({
 
 //TODO CHECK HOW IT LOOKS ON ANDROID
 //TODO STYLE ON ALL DEVICES
-//TODO - TESTS FOR CATEGORIES
+//TODO ALLOW MULTIPLE CATEGORIES? SINGLE DROPDOWN WITH NEW OR EXISTING?
+//TODO ALLOW UPDATE OF CATEGORIES
 //LOG PAGE RE-ORDER AND FILTER HABITS
 
 export const CreateHabit = (props) => {
@@ -84,7 +85,7 @@ export const CreateHabit = (props) => {
                                     label="New Category"
                                     onChangeText={value => onChange(value)}
                                     value={value || ''}
-                                    testID="newCategory"
+                                    testID="new-category"
                                     placeholder="Create a new category"
                                 />
                             )}
@@ -99,6 +100,7 @@ export const CreateHabit = (props) => {
                                         selectedValue={value}
                                         onValueChange={value => onChange(value)}
                                         itemStyle={{ fontSize: 16 }}
+                                        testID="category-input"
                                     >
                                         <Picker.Item label="Please select a category" value="" key="empty" />
                                         {props.categories.map((item) => (<Picker.Item key={item} label={item} value={item} />))}

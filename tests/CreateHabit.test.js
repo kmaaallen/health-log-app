@@ -40,13 +40,13 @@ describe('<CreateHabit />', () => {
         // Dialog with form present
         const title = getByTestId('title-input');
         const limit = getByTestId('limit-input');
-        const category = getByTestId('category-input');
+        const newCategory = getByTestId('new-category');
         const submit = getByText('Ok');
-        expect(title && limit && category).toBeTruthy();
-        // change form values and submit form
+        expect(title && limit && newCategory).toBeTruthy();
+        // change form values and submit form with new category
         fireEvent.changeText(title, 'My first habit');
         fireEvent.changeText(limit, '3');
-        fireEvent.changeText(category, 'Health');
+        fireEvent.changeText(newCategory, 'Health');
         await waitFor(() => {
             fireEvent.press(submit);
         });
@@ -55,6 +55,12 @@ describe('<CreateHabit />', () => {
         expect(store.getState().habits.habits[1].title).toBe('My first habit');
         expect(store.getState().habits.habits[1].limit).toBe('3');
         expect(store.getState().habits.habits[1].category).toBe('Health');
+        // Expect existing category to now be present on form dialogue
+        fireEvent.press(button);
+        await waitFor(() => queryByText('Create a habit'));
+        // expect existing category to be there now
+        const existingCategory = getByTestId('category-input');
+        expect(existingCategory).toBeTruthy();
     }),
         it('validates errors correctly in create new habit form', async () => {
             // Paper provider component wrapper required for react-native-paper, provided at app level
