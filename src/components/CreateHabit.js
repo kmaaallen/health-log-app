@@ -18,21 +18,25 @@ const styles = theme => StyleSheet.create({
         borderWidth: 1,
         borderColor: '#ccc',
         borderRadius: 4,
+        height: 100
     }
 });
 
 //TODO CHECK HOW IT LOOKS ON ANDROID
 //TODO STYLE ON ALL DEVICES
-//TODO ALLOW MULTIPLE CATEGORIES? SINGLE DROPDOWN WITH NEW OR EXISTING?
+//TODO ALLOW SELECTION OF MULTIPLE CATEGORIES
 //TODO ALLOW UPDATE OF CATEGORIES
 //LOG PAGE RE-ORDER AND FILTER HABITS
+//TODO SORT OUT MOBILE MODAL OVERLAP ISSUE
 
 export const CreateHabit = (props) => {
     const [showDialog, setShowDialog] = useState(false);
 
-    const { control, reset, handleSubmit, formState: { errors }, register } = useForm({
+    const { control, reset, handleSubmit, watch, formState: { errors }, register } = useForm({
         mode: 'onSubmit',
     });
+
+    const watchCategoryPicker = watch("category", false);
 
     const createHabit = (formData) => {
         var category;
@@ -78,7 +82,27 @@ export const CreateHabit = (props) => {
                             rules={{ required: true, min: 1 }}
                         />
                         {errors.limit && <HelperText type="error">{errors.limit.type == 'min' ? 'Limit must be greater than zero' : 'Limit is required'}</HelperText>}
+
                         <Controller
+                            control={control}
+                            render={({ field: { onChange, value } }) => (
+                                <View style={styles(props.theme).pickerView}>
+                                    <Picker
+                                        selectedValue={value}
+                                        onValueChange={value => onChange(value)}
+                                        itemStyle={{ fontSize: 16, height: 100 }}
+                                        testID="category-input"
+                                    >
+                                        <Picker.Item label="Please select a category" value="" key="empty" testID="select-category" />
+                                        <Picker.Item label="New category" value="New category" key="New category" testID="new-category" />
+                                        {props.categories.map((item) => (<Picker.Item key={item} label={item} value={item} />))}
+                                    </Picker>
+                                </View>
+                            )}
+                            name="category"
+                            rules={{ required: false }}
+                        />
+                        {watchCategoryPicker == 'New category' ? <Controller
                             control={control}
                             render={({ field: { onChange, value } }) => (
                                 <TextInput
@@ -90,24 +114,6 @@ export const CreateHabit = (props) => {
                                 />
                             )}
                             name="newCategory"
-                            rules={{ required: false }}
-                        />
-                        {props.categories.length > 0 ? <Controller
-                            control={control}
-                            render={({ field: { onChange, value } }) => (
-                                <View style={styles(props.theme).pickerView}>
-                                    <Picker
-                                        selectedValue={value}
-                                        onValueChange={value => onChange(value)}
-                                        itemStyle={{ fontSize: 16 }}
-                                        testID="category-input"
-                                    >
-                                        <Picker.Item label="Please select a category" value="" key="empty" />
-                                        {props.categories.map((item) => (<Picker.Item key={item} label={item} value={item} />))}
-                                    </Picker>
-                                </View>
-                            )}
-                            name="category"
                             rules={{ required: false }}
                         /> : null}
                     </Dialog.Content>
