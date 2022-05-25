@@ -9,6 +9,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 //Screens
 import LogPage from './src/screens/LogPage';
+import NewHabit from './src/screens/NewHabit';
 
 const Stack = createStackNavigator();
 
@@ -20,6 +21,7 @@ export default function App() {
           <NavigationContainer>
             <Stack.Navigator>
               <Stack.Screen name="Log" component={LogPage} />
+              <Stack.Screen name="New" component={NewHabit} />
             </Stack.Navigator>
           </NavigationContainer>
         </PersistGate>
