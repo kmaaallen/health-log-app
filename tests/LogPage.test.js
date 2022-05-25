@@ -7,6 +7,7 @@ import LogPage from '../src/screens/LogPage';
 import '@testing-library/jest-dom/extend-expect';
 import { fireEvent, render, waitFor } from '@testing-library/react-native';
 import { createTestStore } from './utils';
+import { NavigationContainer } from '@react-navigation/native';
 
 
 describe('<LogPage />', () => {
@@ -60,5 +61,13 @@ describe('<LogPage />', () => {
         fireEvent.press(confirm);
         expect(queryByText('My First Habit')).toBeFalsy();
         expect(store.getState().habits).toEqual({ "habits": {} });
+    });
+    it('redirects to NewHabit page when Create New Habit button clicked', async () => {
+        const nav = jest.fn();
+        const component = render(<Provider store={store}><PaperProvider theme={theme}><LogPage navigation={{ navigate: nav }} /></PaperProvider></Provider>);
+        queryByText = component.queryByText;
+        const createNewBtn = queryByText('Create new habit');
+        fireEvent.press(createNewBtn);
+        expect(nav).toHaveBeenCalledWith('New');
     });
 });
