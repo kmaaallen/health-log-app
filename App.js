@@ -6,12 +6,7 @@ import { store, persistor } from './src/redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 //Navigation
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-//Screens
-import LogPage from './src/screens/LogPage';
-import NewHabit from './src/screens/NewHabit';
-
-const Stack = createStackNavigator();
+import TabNavigation from './src/components/TabNavigation';
 
 export default function App() {
   return (
@@ -19,10 +14,7 @@ export default function App() {
       <PaperProvider theme={theme}>
         <PersistGate loading={null} persistor={persistor}>
           <NavigationContainer>
-            <Stack.Navigator>
-              <Stack.Screen name="Log" component={LogPage} />
-              <Stack.Screen name="New" component={NewHabit} />
-            </Stack.Navigator>
+            <TabNavigation />
           </NavigationContainer>
         </PersistGate>
       </PaperProvider>

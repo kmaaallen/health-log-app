@@ -7,8 +7,6 @@ import LogPage from '../src/screens/LogPage';
 import '@testing-library/jest-dom/extend-expect';
 import { fireEvent, render, waitFor } from '@testing-library/react-native';
 import { createTestStore } from './utils';
-import { NavigationContainer } from '@react-navigation/native';
-
 
 describe('<LogPage />', () => {
     let store, stockedStore, queryByText, tree;
@@ -29,14 +27,6 @@ describe('<LogPage />', () => {
     beforeEach(() => {
         store = createTestStore();
         stockedStore = createTestStore(initialState);
-    })
-
-    it('renders only create new habit button when no habits passed', () => {
-        const component = render(<Provider store={store}><PaperProvider theme={theme}><LogPage /></PaperProvider></Provider>);
-        queryByText = component.queryByText;
-        tree = component.toJSON();
-        expect(tree.children[0].children[0].children.length).toBe(1);
-        expect(queryByText('Create new habit')).toBeTruthy();
     });
 
     it('renders correct number of LogButton components when habits passed', () => {
@@ -44,7 +34,6 @@ describe('<LogPage />', () => {
         queryByText = component.queryByText;
         tree = component.toJSON();
         expect(tree.children[0].children[0].children.length).toBe(2);
-        expect(queryByText('Create new habit')).toBeTruthy();
         expect(queryByText('My First Habit')).toBeTruthy();
     });
     it('removes relevant LogButton component when habit deleted', async () => {
@@ -52,7 +41,6 @@ describe('<LogPage />', () => {
         queryByText = component.queryByText;
         tree = component.toJSON();
         expect(tree.children[0].children[0].children.length).toBe(2);
-        expect(queryByText('Create new habit')).toBeTruthy();
         expect(queryByText('My First Habit')).toBeTruthy();
         const deleteButton = queryByText('Delete');
         fireEvent.press(deleteButton);
@@ -61,13 +49,5 @@ describe('<LogPage />', () => {
         fireEvent.press(confirm);
         expect(queryByText('My First Habit')).toBeFalsy();
         expect(store.getState().habits).toEqual({ "habits": {} });
-    });
-    it('redirects to NewHabit page when Create New Habit button clicked', async () => {
-        const nav = jest.fn();
-        const component = render(<Provider store={store}><PaperProvider theme={theme}><LogPage navigation={{ navigate: nav }} /></PaperProvider></Provider>);
-        queryByText = component.queryByText;
-        const createNewBtn = queryByText('Create new habit');
-        fireEvent.press(createNewBtn);
-        expect(nav).toHaveBeenCalledWith('New');
     });
 });
