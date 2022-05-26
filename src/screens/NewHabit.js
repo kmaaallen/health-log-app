@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { StyleSheet, ScrollView, KeyboardAvoidingView, View } from 'react-native';
-import { withTheme, Button, TextInput, HelperText } from 'react-native-paper';
+import { withTheme, Button, TextInput, HelperText, Paragraph } from 'react-native-paper';
 //REDUX
 import { connect } from 'react-redux';
 import { createHabit } from '../redux/actions';
@@ -19,6 +19,10 @@ const styles = theme => StyleSheet.create({
         borderColor: '#ccc',
         borderRadius: 4,
         height: 100
+    },
+    topText: {
+        textAlign: 'center',
+        paddingTop: 5
     }
 });
 
@@ -40,6 +44,7 @@ function NewHabit(props) {
     return (
         <KeyboardAvoidingView behavior='padding'>
             <ScrollView>
+                <Paragraph style={styles(props.theme).topText}>Create a new habit</Paragraph>
                 <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
