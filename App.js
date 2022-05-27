@@ -25,7 +25,8 @@ export default function App() {
 export const theme = {
   ...DefaultTheme,
   colors: {
-    ...DefaultTheme.colors
+    ...DefaultTheme.colors,
+    danger: '#dd0101'
   },
   dialog: {
     margin: '5%',

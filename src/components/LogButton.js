@@ -18,7 +18,7 @@ const styles = theme => StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         alignItems: 'flex-end',
-    }
+    },
 });
 
 //TODO: NUMBER VALIDATION
@@ -57,7 +57,7 @@ export const LogButton = (props) => {
             <Card.Actions>
                 <Button style={styles(props.theme).button} mode='contained' disabled={props.hasReachedLimit} onPress={props.incrementCount}>+</Button>
                 <Button style={styles(props.theme).button} mode='contained' onPress={() => setShowLimitDialog(true)}>Set Limit</Button>
-                <Button style={styles(props.theme).button} mode='contained' onPress={() => setShowDeleteDialog(true)}>Delete</Button>
+                <Button style={styles(props.theme).button} mode='contained' color={props.theme.colors.danger} onPress={() => setShowDeleteDialog(true)}>Delete</Button>
             </Card.Actions>
             <Portal>
                 <Dialog visible={showLimitDialog} onDismiss={() => setShowLimitDialog(false)}>
