@@ -527,7 +527,7 @@ exports[`<LogButton /> renders correctly 1`] = `
           collapsable={false}
           style={
             Object {
-              "backgroundColor": "#6200ee",
+              "backgroundColor": "#dd0101",
               "borderColor": "transparent",
               "borderRadius": 4,
               "borderStyle": "solid",
