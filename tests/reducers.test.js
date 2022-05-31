@@ -42,39 +42,47 @@ describe('test habitReducer', () => {
             }
         });
     });
-    it('should handle SET_LIMIT', () => {
+    it('should handle UPDATE_HABIT', () => {
         expect(
             habitReducer({
                 habits: {
                     1: {
                         id: 1,
                         count: 0,
+                        title: 'Habit 1',
                         limit: 1,
+                        category: 'Testing',
                         log: []
                     },
                     2: {
                         id: 2,
                         count: 0,
+                        title: 'Habit 2',
                         limit: 1,
+                        category: 'Testing',
                         log: []
                     }
                 }
             }, {
-                type: 'SET_LIMIT',
-                payload: { updated: new Date('02 Feb 2021 03:04:05 GMT').valueOf(), limit: 3, id: 1 }
+                type: 'UPDATE_HABIT',
+                payload: { updated: new Date('02 Feb 2021 03:04:05 GMT').valueOf(), limit: 3, id: 1, category: 'New Testing', title: 'Edited Habit 1' }
             })
         ).toEqual({
             habits: {
                 1: {
                     id: 1,
                     count: 0,
+                    title: 'Edited Habit 1',
                     limit: 3,
-                    log: [{ updated: 1612235045000, info: { type: 'limit' } }]
+                    category: 'New Testing',
+                    log: [{ updated: 1612235045000, info: { type: 'edit' } }]
                 },
                 2: {
                     id: 2,
                     count: 0,
+                    title: 'Habit 2',
                     limit: 1,
+                    category: 'Testing',
                     log: []
                 }
             }

@@ -7,6 +7,8 @@ import LogPage from '../src/screens/LogPage';
 import '@testing-library/jest-dom/extend-expect';
 import { fireEvent, render, waitFor } from '@testing-library/react-native';
 import { createTestStore } from './utils';
+// Navigation
+import { NavigationContainer } from '@react-navigation/native';
 
 describe('<LogPage />', () => {
     let store, stockedStore, queryByText, tree;
@@ -30,14 +32,14 @@ describe('<LogPage />', () => {
     });
 
     it('renders correct number of LogButton components when habits passed', () => {
-        const component = render(<Provider store={stockedStore}><PaperProvider theme={theme}><LogPage /></PaperProvider></Provider>);
+        const component = render(<Provider store={stockedStore}><PaperProvider theme={theme}><NavigationContainer><LogPage /></NavigationContainer></PaperProvider></Provider>);
         queryByText = component.queryByText;
         tree = component.toJSON();
         expect(tree.children[0].children[0].children.length).toBe(2);
         expect(queryByText('My First Habit')).toBeTruthy();
     });
     it('removes relevant LogButton component when habit deleted', async () => {
-        const component = render(<Provider store={stockedStore}><PaperProvider theme={theme}><LogPage /></PaperProvider></Provider>);
+        const component = render(<Provider store={stockedStore}><PaperProvider theme={theme}><NavigationContainer><LogPage /></NavigationContainer></PaperProvider></Provider>);
         queryByText = component.queryByText;
         tree = component.toJSON();
         expect(tree.children[0].children[0].children.length).toBe(2);

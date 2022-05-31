@@ -5,6 +5,8 @@ import { StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 import { incrementCount, resetCount, setLimit, deleteHabit } from '../redux/actions';
 import { hasReachedDailyLimitSelector } from '../redux/selectors';
+//NAVIGATION
+import { useNavigation } from '@react-navigation/native';
 
 const styles = theme => StyleSheet.create({
     card: {
@@ -24,6 +26,7 @@ const styles = theme => StyleSheet.create({
 //TODO: NUMBER VALIDATION
 
 export const LogButton = (props) => {
+    const navigation = useNavigation();
     const [showLimitDialog, setShowLimitDialog] = useState(false);
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
     const [limit, setLimit] = useState('');
@@ -31,6 +34,10 @@ export const LogButton = (props) => {
     const updateLimit = () => {
         props.updateLimit(limit);
         setShowLimitDialog(false);
+    }
+
+    const editHabit = (habitId) => {
+        navigation.navigate('Edit', { habit: habitId });
     }
 
     const deleteHabit = () => {
@@ -56,24 +63,11 @@ export const LogButton = (props) => {
             </Card.Content>
             <Card.Actions>
                 <Button style={styles(props.theme).button} mode='contained' disabled={props.hasReachedLimit} onPress={props.incrementCount}>+</Button>
-                <Button style={styles(props.theme).button} mode='contained' onPress={() => setShowLimitDialog(true)}>Set Limit</Button>
+                <Button style={styles(props.theme).button} mode='contained' onPress={() => editHabit(props.habit.id)}>Edit</Button>
                 <Button style={styles(props.theme).button} mode='contained' color={props.theme.colors.danger} onPress={() => setShowDeleteDialog(true)}>Delete</Button>
             </Card.Actions>
+
             <Portal>
-                <Dialog visible={showLimitDialog} onDismiss={() => setShowLimitDialog(false)}>
-                    <Dialog.Title>Choose a daily limit</Dialog.Title>
-                    <Dialog.Content>
-                        <TextInput
-                            label="Daily limit"
-                            onChangeText={(input) => setLimit(input)}
-                            testID='daily-limit'
-                        />
-                    </Dialog.Content>
-                    <Dialog.Actions>
-                        <Button onPress={() => setShowLimitDialog(false)}>Cancel</Button>
-                        <Button onPress={updateLimit}>Ok</Button>
-                    </Dialog.Actions>
-                </Dialog>
                 <Dialog visible={showDeleteDialog} onDismiss={() => setShowDeleteDialog(false)}>
                     <Dialog.Title>Are you sure?</Dialog.Title>
                     <Dialog.Actions>

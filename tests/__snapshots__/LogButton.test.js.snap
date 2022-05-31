@@ -518,7 +518,7 @@ exports[`<LogButton /> renders correctly 1`] = `
                   ]
                 }
               >
-                Set Limit
+                Edit
               </Text>
             </View>
           </View>

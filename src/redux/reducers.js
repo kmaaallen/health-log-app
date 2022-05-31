@@ -41,24 +41,6 @@ const habitReducer = (state = initialState, action) => {
                 }
             }
         }
-        case 'SET_LIMIT': {
-            const id = action.payload.id;
-            const logObj = { updated: action.payload.updated, info: { type: 'limit' } };
-            return {
-                ...state,
-                habits: {
-                    ...state.habits,
-                    [id]: {
-                        ...state.habits[id],
-                        limit: action.payload.limit,
-                        log: [
-                            ...state.habits[id].log,
-                            logObj
-                        ]
-                    }
-                }
-            }
-        }
         case 'RESET_COUNT': {
             const id = action.payload.id;
             const logObj = { updated: action.payload.updated, info: { type: 'reset' } };
@@ -82,6 +64,26 @@ const habitReducer = (state = initialState, action) => {
             const stateCopy = Object.assign({}, { ...state, habits: { ...state.habits } });
             delete (stateCopy.habits[id]);
             return stateCopy;
+        }
+        case 'UPDATE_HABIT': {
+            const id = action.payload.id;
+            const logObj = { updated: action.payload.updated, info: { type: 'edit' } };
+            return {
+                ...state,
+                habits: {
+                    ...state.habits,
+                    [id]: {
+                        ...state.habits[id],
+                        limit: action.payload.limit,
+                        title: action.payload.title,
+                        category: action.payload.category,
+                        log: [
+                            ...state.habits[id].log,
+                            logObj
+                        ]
+                    }
+                }
+            }
         }
         default: {
             return state;
