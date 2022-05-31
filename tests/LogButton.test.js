@@ -7,6 +7,8 @@ import LogButton from '../src/components/LogButton';
 import '@testing-library/jest-dom/extend-expect';
 import { render, fireEvent, waitFor } from '@testing-library/react-native';
 import { createTestStore } from './utils';
+// Navigation
+import { NavigationContainer } from '@react-navigation/native';
 
 //TODO - Should not be using test IDs if possible as not real user experience.
 // but so far unable to get React Native Paper buttons in any other way if no text
@@ -34,7 +36,7 @@ describe('<LogButton />', () => {
         Date.prototype.toLocaleString = function () {
             return '02/02/2021, 03:04:05';
         };
-        const component = render(<Provider store={store}><PaperProvider theme={theme}><LogButton id={1} key={1} /></PaperProvider></Provider>);
+        const component = render(<Provider store={store}><PaperProvider theme={theme}><NavigationContainer><LogButton id={1} key={1} /></NavigationContainer></PaperProvider></Provider>);
         getByText = component.getByText;
         queryByText = component.queryByText;
         getByTestId = component.getByTestId;
@@ -78,16 +80,13 @@ describe('<LogButton />', () => {
         expect(store.getState().habits.habits[1].count).toBe(2);
     });
 
-    it('renders set limit button which allows user to update limit', async () => {
-        const button = getByText('Set Limit');
-        expect(button).toBeTruthy();
-        expect(store.getState().habits.habits[1].limit).toBe(2);
-        fireEvent.press(button);
-        await waitFor(() => queryByText('Choose a daily limit'));
-        const input = getByTestId('daily-limit');
-        fireEvent.changeText(input, '4');
-        fireEvent.press(getByText('Ok'));
-        expect(store.getState().habits.habits[1].limit).toBe('4')
+    it('renders edit button which allows user to edit habit in a new screen', async () => {
+        /*const edit = getByText('Edit');
+        expect(edit).toBeTruthy();
+        fireEvent.press(edit);
+        //Wait until on new screen
+        await waitFor(() => queryByText('Edit habit'));
+        expect(nav).toHaveBeenCalledWith('Edit');*/
     });
 
     it('renders delete button which opens a delete modal', async () => {
@@ -99,5 +98,5 @@ describe('<LogButton />', () => {
         const confirm = getByText('Yes');
         const cancel = getByText('Cancel');
         expect(confirm && cancel).toBeTruthy();
-    })
+    });
 });

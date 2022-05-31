@@ -1,4 +1,4 @@
-import { incrementCount, setLimit, resetCount, createHabit, deleteHabit } from '../src/redux/actions';
+import { incrementCount, updateHabit, resetCount, createHabit, deleteHabit } from '../src/redux/actions';
 import configureStore from 'redux-mock-store';
 
 const mockStore = configureStore();
@@ -21,18 +21,19 @@ describe('test incrementCount action', () => {
 
 });
 
-describe('test setLimit action', () => {
+
+describe('test updateHabit action', () => {
     beforeEach(() => {
         store.clearActions();
     });
     it('dispatches correct action and payload', () => {
         const expectedActions = [
             {
-                'type': 'SET_LIMIT',
-                'payload': { updated: 1612235045000, limit: 3, id: 1 }
+                'type': 'UPDATE_HABIT',
+                'payload': { updated: 1612235045000, limit: 3, id: 1, category: 'Health', title: 'New Test Habit' }
             },
         ];
-        store.dispatch(setLimit({ updated: new Date('02 Feb 2021 03:04:05 GMT').valueOf(), limit: 3, habitId: 1 }));
+        store.dispatch(updateHabit({ updated: new Date('02 Feb 2021 03:04:05 GMT').valueOf(), limit: 3, habitId: 1, category: 'Health', title: 'New Test Habit' }));
         expect(store.getActions()).toEqual(expectedActions);
     });
 
