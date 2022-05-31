@@ -6,7 +6,7 @@ import { store, persistor } from './src/redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 //Navigation
 import { NavigationContainer } from '@react-navigation/native';
-import TabNavigation from './src/components/TabNavigation';
+import { StackNavigation } from './src/components/Navigation';
 
 export default function App() {
   return (
@@ -14,7 +14,7 @@ export default function App() {
       <PaperProvider theme={theme}>
         <PersistGate loading={null} persistor={persistor}>
           <NavigationContainer>
-            <TabNavigation />
+            <StackNavigation />
           </NavigationContainer>
         </PersistGate>
       </PaperProvider>

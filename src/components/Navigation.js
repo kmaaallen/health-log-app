@@ -1,16 +1,19 @@
 import React from 'react';
 //Navigation
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 //Screens
 import LogPage from '../screens/LogPage';
 import NewHabit from '../screens/NewHabit';
+import EditHabit from '../screens/EditHabit';
 //Theme
 import { withTheme } from 'react-native-paper';
 
+const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-export const TabNavigation = (props) => {
+export const TabNavigation = () => {
     return (
         <Tab.Navigator
             screenOptions={({ route }) => ({
@@ -23,7 +26,8 @@ export const TabNavigation = (props) => {
                     }
                     return <Ionicons name={iconName} size={size} color={color} />;
                 },
-                tabBarActiveTintColor: props.theme.colors.primary,
+                //tabBarActiveTintColor: props.theme.colors.primary, to fix
+                tabBarActiveTintColor: 'blue',
                 tabBarInactiveTintColor: 'gray',
             })}
         >
@@ -33,6 +37,15 @@ export const TabNavigation = (props) => {
     )
 }
 
+export const StackNavigation = (props) => {
+    return (
+        <Stack.Navigator>
+            <Stack.Screen name="Health Log Tracker" component={TabNavigation} />
+            <Stack.Screen name="Edit" component={EditHabit} />
+        </Stack.Navigator>
+    )
+}
 
-export default withTheme(TabNavigation);
+
+export default withTheme(StackNavigation);
 
