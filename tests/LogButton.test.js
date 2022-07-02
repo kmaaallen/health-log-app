@@ -14,7 +14,7 @@ import { NavigationContainer } from '@react-navigation/native';
 // but so far unable to get React Native Paper buttons in any other way if no text
 
 describe('<LogButton />', () => {
-    let store, getByText, queryByText, getByTestId, tree
+    let store, getByText, queryByText, getByTestId, tree;
     var toLocaleString = Date.prototype.toLocaleString;
 
     beforeEach(() => {
@@ -81,12 +81,13 @@ describe('<LogButton />', () => {
     });
 
     it('renders edit button which allows user to edit habit in a new screen', async () => {
-        /*const edit = getByText('Edit');
-        expect(edit).toBeTruthy();
-        fireEvent.press(edit);
-        //Wait until on new screen
-        await waitFor(() => queryByText('Edit habit'));
-        expect(nav).toHaveBeenCalledWith('Edit');*/
+        /* const edit = getByText('Edit');
+         expect(edit).toBeTruthy();
+         fireEvent.press(edit);
+         //Wait until on new screen
+         await waitFor(() => queryByText('Edit habit'));
+         //Expected new header
+         expect(queryByText('Edit habit')).toBeTruthy();*/
     });
 
     it('renders delete button which opens a delete modal', async () => {
