@@ -3,10 +3,12 @@ import { withTheme, Card, Button, Title, Paragraph, Dialog, TextInput, Portal, C
 import { StyleSheet, View } from 'react-native';
 //REDUX
 import { connect } from 'react-redux';
-import { incrementCount, resetCount, setLimit, deleteHabit } from '../redux/actions';
-import { hasReachedDailyLimitSelector } from '../redux/selectors';
+import { incrementCount, resetCount, deleteHabit } from '../redux/actions';
+import { hasReachedFrequencyLimitSelector } from '../redux/selectors';
 //NAVIGATION
 import { useNavigation } from '@react-navigation/native';
+// UTILS
+import { getResetDateTime } from '../dateUtils';
 
 const styles = theme => StyleSheet.create({
     card: {
@@ -27,14 +29,7 @@ const styles = theme => StyleSheet.create({
 
 export const LogButton = (props) => {
     const navigation = useNavigation();
-    const [showLimitDialog, setShowLimitDialog] = useState(false);
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-    const [limit, setLimit] = useState('');
-
-    const updateLimit = () => {
-        props.updateLimit(limit);
-        setShowLimitDialog(false);
-    }
 
     const switchScreen = (screen, habitId) => {
         navigation.navigate(screen, { habit: habitId });
@@ -46,9 +41,8 @@ export const LogButton = (props) => {
     }
 
     useEffect(() => {
-        var midnight = new Date();
-        midnight.setUTCHours(0, 0, 0, 0);
-        if (new Date(props.lastUpdated) < midnight) {
+        // Get reset date time
+        if (new Date(props.lastUpdated) < getResetDateTime(props.habit.frequency)) {
             props.resetCount();
         }
     }, []);
@@ -58,7 +52,7 @@ export const LogButton = (props) => {
             <Card.Content>
                 <Title>{props.habit.title}</Title>
                 {props.habit.category ? <View style={styles(props.theme).chipView}><Chip>{props.habit.category}</Chip></View> : null}
-                <Paragraph>{props.habit.count} / {props.habit.limit}</Paragraph>
+                <Paragraph>{props.habit.count} / {props.habit.limit} {props.habit.frequency}</Paragraph>
                 <Paragraph>Last logged: {props.updatedDisplay}</Paragraph>
             </Card.Content>
             <Card.Actions>
@@ -89,7 +83,7 @@ function mapStateToProps(state, ownProps) {
         habit: habit,
         lastUpdated: event ? event.updated : null,
         updatedDisplay: event ? (new Date(event.updated)).toLocaleString() : 'Never',
-        hasReachedLimit: habit ? hasReachedDailyLimitSelector(state.habits, ownProps.id) : {},
+        hasReachedLimit: habit ? hasReachedFrequencyLimitSelector(state.habits, ownProps.id) : {},
     }
 }
 
@@ -97,7 +91,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         incrementCount: () => dispatch(incrementCount({ updated: (new Date()).valueOf(), habitId: ownProps.id })),
         resetCount: () => dispatch(resetCount({ updated: (new Date()).valueOf(), habitId: ownProps.id })),
-        updateLimit: (limit) => dispatch(setLimit({ updated: (new Date()).valueOf(), limit: limit, habitId: ownProps.id })),
         deleteHabit: () => dispatch(deleteHabit({ habitId: ownProps.id }))
     }
 }

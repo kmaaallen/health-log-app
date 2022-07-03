@@ -248,6 +248,8 @@ exports[`<LogButton /> renders correctly 1`] = `
           0
            / 
           2
+           
+          Daily
         </Text>
         <Text
           style={

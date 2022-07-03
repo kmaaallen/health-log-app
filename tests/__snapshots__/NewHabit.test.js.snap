@@ -428,6 +428,58 @@ exports[`<NewHabit /> renders correctly 1`] = `
             items={
               Array [
                 Object {
+                  "label": "Daily",
+                  "testID": "select-daily-frequency",
+                  "textColor": undefined,
+                  "value": "Daily",
+                },
+                Object {
+                  "label": "Weekly",
+                  "testID": "select-weekly-frequency",
+                  "textColor": undefined,
+                  "value": "Weekly",
+                },
+                Object {
+                  "label": "Monthly",
+                  "testID": "select-monthly-frequency",
+                  "textColor": undefined,
+                  "value": "Monthly",
+                },
+              ]
+            }
+            numberOfLines={1}
+            onChange={[Function]}
+            selectedIndex={0}
+            style={
+              Array [
+                Object {
+                  "height": 216,
+                },
+                Object {
+                  "fontSize": 16,
+                  "height": 100,
+                },
+              ]
+            }
+            testID="frequency-input"
+          />
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "borderColor": "#ccc",
+            "borderRadius": 4,
+            "borderWidth": 1,
+            "height": 100,
+          }
+        }
+      >
+        <View>
+          <RNCPicker
+            items={
+              Array [
+                Object {
                   "label": "Please select a category",
                   "testID": "select-category",
                   "textColor": undefined,

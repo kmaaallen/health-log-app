@@ -37,7 +37,7 @@ function NewHabit(props) {
     const createHabit = (formData) => {
         var category;
         formData.newCategory ? category = formData.newCategory : category = formData.category;
-        props.createHabit(formData.title, formData.limit, category);
+        props.createHabit(formData.title, formData.limit, category, formData.frequency);
         props.navigation.navigate('Log');
     }
 
@@ -74,6 +74,26 @@ function NewHabit(props) {
                     rules={{ required: true, min: 1 }}
                 />
                 {errors.limit && <HelperText type="error">{errors.limit.type == 'min' ? 'Limit must be greater than zero' : 'Limit is required'}</HelperText>}
+
+                <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                        <View style={styles(props.theme).pickerView}>
+                            <Picker
+                                selectedValue={value}
+                                onValueChange={value => onChange(value)}
+                                itemStyle={{ fontSize: 16, height: 100 }}
+                                testID="frequency-input"
+                            >
+                                <Picker.Item label="Daily" value="Daily" key="Daily" testID="select-daily-frequency" />
+                                <Picker.Item label="Weekly" value="Weekly" key="Weekly" testID="select-weekly-frequency" />
+                                <Picker.Item label="Monthly" value="Monthly" key="Monthly" testID="select-monthly-frequency" />
+                            </Picker>
+                        </View>
+                    )}
+                    name="frequency"
+                    rules={{ required: true }}
+                />
 
                 <Controller
                     control={control}
@@ -120,7 +140,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        createHabit: (title, limit, category) => dispatch(createHabit({ updated: (new Date()).valueOf(), title: title, limit: limit, category: category }))
+        createHabit: (title, limit, category, frequency) => dispatch(createHabit({ updated: (new Date()).valueOf(), title: title, limit: limit, category: category, frequency: frequency }))
     }
 }
 
