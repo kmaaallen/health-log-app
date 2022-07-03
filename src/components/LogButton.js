@@ -36,8 +36,8 @@ export const LogButton = (props) => {
         setShowLimitDialog(false);
     }
 
-    const editHabit = (habitId) => {
-        navigation.navigate('Edit', { habit: habitId });
+    const switchScreen = (screen, habitId) => {
+        navigation.navigate(screen, { habit: habitId });
     }
 
     const deleteHabit = () => {
@@ -63,8 +63,9 @@ export const LogButton = (props) => {
             </Card.Content>
             <Card.Actions>
                 <Button style={styles(props.theme).button} mode='contained' disabled={props.hasReachedLimit} onPress={props.incrementCount}>+</Button>
-                <Button style={styles(props.theme).button} mode='contained' onPress={() => editHabit(props.habit.id)}>Edit</Button>
+                <Button style={styles(props.theme).button} mode='contained' onPress={() => switchScreen('Edit', props.habit.id)}>Edit</Button>
                 <Button style={styles(props.theme).button} mode='contained' color={props.theme.colors.danger} onPress={() => setShowDeleteDialog(true)}>Delete</Button>
+                <Button style={styles(props.theme).button} mode='contained' onPress={() => switchScreen('Report', props.habit.id)}>Report</Button>
             </Card.Actions>
 
             <Portal>

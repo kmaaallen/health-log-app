@@ -7,6 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 import LogPage from '../screens/LogPage';
 import NewHabit from '../screens/NewHabit';
 import EditHabit from '../screens/EditHabit';
+import Report from '../screens/Report';
 //Theme
 import { withTheme } from 'react-native-paper';
 
@@ -42,6 +43,7 @@ export const StackNavigation = (props) => {
         <Stack.Navigator>
             <Stack.Screen name="Health Log Tracker" component={TabNavigation} />
             <Stack.Screen name="Edit" component={EditHabit} />
+            <Stack.Screen name="Report" component={Report} />
         </Stack.Navigator>
     )
 }
