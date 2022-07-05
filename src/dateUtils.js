@@ -19,35 +19,46 @@ export const getResetDateTime = (frequency) => {
 }
 
 // For Reports
-// Show last X days - for now X is 7 for spacing reasons.
-export const getLastLabels = (limit) => {
-    const labels = [];
-    var today = new Date();
-    today.setDate(today.getDate() - (limit + 1));
+// options for local date string
+const options = {
+    month: "2-digit",
+    day: "2-digit"
+};
 
-    while (limit >= 0) {
+// Show last X days - for now X is 7 for spacing reasons.
+// In this function need to handle month and week views - TODO
+// Daily 25/01, Weekly 07/05 (last day of week - Sunday), Monthly Jan
+export const getLastLabels = (limit, frequency) => {
+    const labels = [];
+    var count = frequency;
+
+    var today = new Date();
+    today.setDate(today.getDate() - (limit));
+
+    while (count > 0) {
         today.setDate(today.getDate() + 1);
-        labels.push(today.toLocaleDateString().slice(0, 5));
-        limit--;
+        labels.push(today.toLocaleDateString("en-GB", options).slice(0, 5));
+        count--;
     }
     return labels;
 }
 
-export const getUnixLimit = (limit) => {
-    var today = new Date();
-    today.setHours(23, 59, 59, 59);
-    return today - (limit + 1) * 24 * 60 * 60 * 1000;
+export const getFirstEntryLimit = (firstEntry, frequency) => {
+    var today = new Date().valueOf(); // get today in unix
+    var divisor = 24 * 60 * 60 * 1000;
+    var dayDiff = Math.ceil((today - firstEntry) / divisor);
+    return (dayDiff - (dayDiff % frequency) + frequency);
 }
 
-export const getDataForLabels = (logs, limit) => {
+export const getDataForLabels = (logs, limit, frequency) => {
     // Get label array
-    let labels = getLastLabels(limit);
+    let labels = getLastLabels(limit, frequency);
 
     let data = [];
 
     labels.forEach((label) => {
         let labelLogs = logs.filter(function (log) {
-            var format = new Date(log.updated).toLocaleDateString().slice(0, 5);
+            var format = new Date(log.updated).toLocaleDateString("en-GB", options).slice(0, 5);
             return format == label;
         });
         data.push(labelLogs.length);
