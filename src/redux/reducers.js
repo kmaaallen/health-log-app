@@ -15,11 +15,12 @@ const habitReducer = (state = initialState, action) => {
             const title = action.payload.title;
             const limit = action.payload.limit;
             const category = action.payload.category;
+            const frequency = action.payload.frequency;
             return {
                 ...state,
                 habits: {
                     ...state.habits,
-                    [id]: { id: id, title: title, count: 0, limit: limit, category: category, log: [{ updated: action.payload.updated, info: { type: 'created' } }] }
+                    [id]: { id: id, title: title, count: 0, limit: limit, category: category, frequency: frequency, log: [{ updated: action.payload.updated, info: { type: 'created' } }] }
                 }
             }
         }
@@ -77,6 +78,7 @@ const habitReducer = (state = initialState, action) => {
                         limit: action.payload.limit,
                         title: action.payload.title,
                         category: action.payload.category,
+                        frequency: action.payload.frequency,
                         log: [
                             ...state.habits[id].log,
                             logObj

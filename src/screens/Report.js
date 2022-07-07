@@ -1,13 +1,13 @@
-import React from 'react';
-import { StyleSheet, ScrollView, Dimensions } from 'react-native';
-import { withTheme, Button, TextInput, HelperText, Paragraph, Title } from 'react-native-paper';
+import React, { useState } from 'react';
+import { StyleSheet, ScrollView, Dimensions, View } from 'react-native';
+import { withTheme, Button, TextInput, HelperText, Paragraph, Title, IconButton } from 'react-native-paper';
 //REDUX
 import { connect } from 'react-redux';
 //NAVIGATION
 import { useRoute } from '@react-navigation/native';
 //CHARTS
 import { LineChart } from 'react-native-chart-kit';
-import { getLastLabels, getUnixLimit, getDataForLabels } from '../dateUtils';
+import { getLastLabels, getFirstEntryLimit, getDataForLabels, getYearHelper } from '../dateUtils';
 
 
 const styles = theme => StyleSheet.create({
@@ -15,16 +15,42 @@ const styles = theme => StyleSheet.create({
         textAlign: 'center',
         paddingTop: 5,
         backgroundColor: '#FFFFFF',
-        margin: 0
+        margin: 0,
+    },
+    fullRow: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        backgroundColor: '#FFFFFF',
     }
 });
-
 
 function Report(props) {
     const route = useRoute();
     const habitId = route.params.habit;
     const width = Dimensions.get('window').width;
     const height = 220;
+    // Data constants
+    const habitFrequency = props.habits[habitId].frequency == 'Daily' ? 7 : props.habits[habitId].frequency == 'Weekly' ? 4 : 12;
+    const filteredLog = props.habits[habitId].log.filter(function (log) {
+        return log.info.type == 'increment';
+    });
+    const earliestDataLimit = getFirstEntryLimit(filteredLog[0].updated, habitFrequency); // determined first chunk of data
+    // Data changeable
+    const [chartLimit, setChartLimit] = useState(habitFrequency); // Determines which chunk of data to show
+    const [chartData, setChartData] = useState(
+        {
+            labels: getLastLabels(chartLimit, habitFrequency),
+            datasets: [{
+                data: getDataForLabels(filteredLog, chartLimit, habitFrequency),
+                color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})` // optional
+            },
+            /*{
+                data: [0], //lowest graph value to fix y-axis values for low data sets - still being weird.
+                withDots: false, //hide the lowest dot.
+            }*/,]
+        }
+    ); // sets data for chart based on chunk
 
     const chartConfig =
     {
@@ -32,33 +58,59 @@ function Report(props) {
         backgroundGradientFrom: '#ffffff',
         backgroundGradientTo: '#ffffff',
         color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-        decimalPlaces: 0,
+        //decimalPlaces: 0,
     }
 
     const graphStyle = {
         ...chartConfig.style
     }
 
-    //Get increment logs after limit
-    const log = props.habits[habitId].log.filter(function (log) {
-        return log.info.type == 'increment' && log.updated > getUnixLimit(7)
-    });
+    const getData = (direction) => {
+        let newLimit;
+        // if direction left - go back {frequency} days,
+        // if direction right - go forward {frequency} days
+        if (direction == 'left') {
+            newLimit = chartLimit + habitFrequency;
+        } else {
+            newLimit = chartLimit - habitFrequency;
+        }
 
-    // Get labels - only show last 7 days for now
-    // Want labels = [02/07, 03/07, 04/07] format
-    const data = {
-        labels: getLastLabels(7),
-        datasets: [{
-            data: getDataForLabels(log, 7),
-            color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})` // optional
-        }]
+        setChartData({
+            labels: getLastLabels(newLimit, habitFrequency),
+            datasets: [{
+                data: getDataForLabels(filteredLog, newLimit, habitFrequency),
+                color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`
+            },
+            /*{
+                data: [4], //lowest graph value to fix y-axis values for low data sets
+                withDots: false, //hide the lowest dot.
+            }*/]
+        });
+
+        setChartLimit(newLimit);
     }
     return (
         <ScrollView>
             <Title style={styles(props.theme).topText}>{props.habits[habitId].title}</Title>
-            <Paragraph style={styles(props.theme).topText}>Last 7 days</Paragraph>
+
+            <View style={styles.apply(props.theme).fullRow}>
+                <IconButton
+                    icon="arrow-left-bold-circle"
+                    size={20}
+                    onPress={() => getData('left')}
+                    disabled={earliestDataLimit == chartLimit}
+                />
+                <Paragraph>
+                    {props.habits[habitId].frequency == 'Monthly' ? getYearHelper(chartLimit) : `${chartData.labels[0]} - ${chartData.labels[habitFrequency - 1]}`}</Paragraph>
+                <IconButton
+                    icon="arrow-right-bold-circle"
+                    size={20}
+                    onPress={() => getData('right')}
+                    disabled={chartLimit == habitFrequency}
+                />
+            </View>
             <LineChart
-                data={data}
+                data={chartData}
                 width={width}
                 height={height}
                 chartConfig={chartConfig}

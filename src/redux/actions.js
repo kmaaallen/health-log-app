@@ -10,7 +10,7 @@ export const resetCount = (args) => ({
 
 export const createHabit = (args) => ({
     type: 'CREATE_HABIT',
-    payload: { updated: args.updated, title: args.title, limit: args.limit, category: args.category }
+    payload: { updated: args.updated, title: args.title, limit: args.limit, category: args.category, frequency: args.frequency }
 });
 
 export const deleteHabit = (args) => ({
@@ -20,5 +20,5 @@ export const deleteHabit = (args) => ({
 
 export const updateHabit = (args) => ({
     type: 'UPDATE_HABIT',
-    payload: { id: args.habitId, updated: args.updated, title: args.title, limit: args.limit, category: args.category }
+    payload: { id: args.habitId, updated: args.updated, title: args.title, limit: args.limit, category: args.category, frequency: args.frequency }
 })

@@ -21,6 +21,7 @@ describe('<NewHabit />', () => {
                     count: 0,
                     limit: 3,
                     category: 'Health',
+                    frequency: 'Daily',
                     log: [{ updated: 1612235045000, info: { type: 'created' } }]
                 },
             }
@@ -42,16 +43,17 @@ describe('<NewHabit />', () => {
         expect(tree).toMatchSnapshot();
     });
 
-    it('renders create new habit form title, limit, category inputs and submit button on first load', async () => {
+    it('renders create new habit form title, limit, category inputs and submit button on first load', () => {
         // Paper provider component wrapper required for react-native-paper, provided at app level
         const { getByText, getByTestId, queryByTestId } = render(<Provider store={store}><PaperProvider theme={theme}><NewHabit /></PaperProvider></Provider>);
         // Expected form inputs on first load
         const title = getByTestId('title-input');
         const limit = getByTestId('limit-input');
         const category = getByTestId('category-input');
+        const frequency = getByTestId('frequency-input');
         const submit = getByText('Ok');
         // Inputs to be present
-        expect(title && limit && category && submit).toBeTruthy();
+        expect(title && limit && category && frequency && submit).toBeTruthy();
         // Expect category default option to be set to 'Please select a category'
         expect(category.props.items[category.props.selectedIndex].label).toBe('Please select a category');
         // Expect new category text input to be hidden at this stage
@@ -71,7 +73,7 @@ describe('<NewHabit />', () => {
         expect(getByTestId('new-category')).toBeTruthy();
     });
 
-    it('allows users to select from an existing category', async () => {
+    it('allows users to select from an existing category', () => {
         const nav = jest.fn();
         // Paper provider component wrapper required for react-native-paper, provided at app level
         const { getByTestId, queryByTestId, getByText } = render(<Provider store={stockedStore}><PaperProvider theme={theme}><NewHabit navigation={{ navigate: nav }} /></PaperProvider></Provider>);
@@ -90,9 +92,11 @@ describe('<NewHabit />', () => {
         const title = getByTestId('title-input');
         const limit = getByTestId('limit-input');
         const category = getByTestId('category-input');
+        const frequency = getByTestId('frequency-input');
         const submit = getByText('Ok');
         fireEvent.changeText(title, 'My new habit');
         fireEvent.changeText(limit, '2');
+        fireEvent(frequency, 'onValueChange', 'Daily');
         fireEvent(category, 'onValueChange', 'New category');
         await waitFor(() => queryByTestId('new-category'));
         fireEvent.changeText(getByTestId('new-category'), 'Fitness');
@@ -103,6 +107,7 @@ describe('<NewHabit />', () => {
         expect(Object.keys(store.getState().habits.habits).length).toBe(1);
         expect(store.getState().habits.habits[1].title).toBe('My new habit');
         expect(store.getState().habits.habits[1].limit).toBe('2');
+        expect(store.getState().habits.habits[1].frequency).toBe('Daily');
         expect(store.getState().habits.habits[1].category).toBe('Fitness');
     });
 
@@ -137,10 +142,12 @@ describe('<NewHabit />', () => {
         // Submit new habit under new category
         const title = getByTestId('title-input');
         const limit = getByTestId('limit-input');
+        const frequency = getByTestId('frequency-input');
         const category = getByTestId('category-input');
         const submit = getByText('Ok');
         fireEvent.changeText(title, 'My new habit');
         fireEvent.changeText(limit, '2');
+        fireEvent(frequency, 'onValueChange', 'Daily');
         fireEvent(category, 'onValueChange', 'New category');
         await waitFor(() => queryByTestId('new-category'));
         fireEvent.changeText(getByTestId('new-category'), 'New thing');
@@ -151,6 +158,7 @@ describe('<NewHabit />', () => {
         expect(Object.keys(store.getState().habits.habits).length).toBe(1);
         expect(store.getState().habits.habits[1].title).toBe('My new habit');
         expect(store.getState().habits.habits[1].limit).toBe('2');
+        expect(store.getState().habits.habits[1].frequency).toBe('Daily');
         expect(store.getState().habits.habits[1].category).toBe('New thing');
         expect(nav).toHaveBeenCalledWith('Log');
     });

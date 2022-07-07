@@ -26,6 +26,7 @@ describe('<LogButton />', () => {
                         title: 'My First Habit',
                         count: 1,
                         limit: 2,
+                        frequency: 'Daily',
                         category: 'Health',
                         log: [{ updated: 1612235045000, info: { type: 'created' } }, { updated: 1612235045000, info: { type: 'increment' } }]
                     }
@@ -60,7 +61,7 @@ describe('<LogButton />', () => {
     });
 
     it('displays count / limit, category and last updated', () => {
-        const display = getByText('0 / 2');
+        const display = getByText('0 / 2 today');
         const updated = getByText('Last logged: 02/02/2021, 03:04:05');
         const category = getByText('Health');
         expect(display && updated && category).toBeTruthy();
@@ -80,7 +81,7 @@ describe('<LogButton />', () => {
         expect(store.getState().habits.habits[1].count).toBe(2);
     });
 
-    it('renders edit button which allows user to edit habit in a new screen', async () => {
+    it('renders edit button which allows user to edit habit in a new screen', () => {
         /*const edit = getByText('Edit');
         expect(edit).toBeTruthy();
         fireEvent.press(edit);

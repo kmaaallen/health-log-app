@@ -20,6 +20,7 @@ describe('<LogPage />', () => {
                     title: 'My First Habit',
                     count: 1,
                     limit: 2,
+                    frequency: 'Weekly',
                     log: [{ updated: 1612235045000, info: { type: 'created' } }, { updated: 1612235045000, info: { type: 'increment' } }]
                 }
             }

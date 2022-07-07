@@ -1,8 +1,8 @@
-import { hasReachedDailyLimitSelector } from '../src/redux/selectors';
+import { hasReachedFrequencyLimitSelector } from '../src/redux/selectors';
 
 describe('test selector', () => {
     it('should return false initially for untracked habit', () => {
-        expect(hasReachedDailyLimitSelector({
+        expect(hasReachedFrequencyLimitSelector({
             habits: {
                 1: {
                     id: 1,
@@ -19,8 +19,8 @@ describe('test selector', () => {
             }
         }, 1)).toBe(false);
     });
-    it('should return true if daily limit reached', () => {
-        expect(hasReachedDailyLimitSelector({
+    it('should return true if limit reached', () => {
+        expect(hasReachedFrequencyLimitSelector({
             habits: {
                 1: {
                     id: 1,
@@ -37,8 +37,8 @@ describe('test selector', () => {
             }
         }, 1)).toBe(true);
     });
-    it('should return false if daily limit not reached', () => {
-        expect(hasReachedDailyLimitSelector({
+    it('should return false if limit not reached', () => {
+        expect(hasReachedFrequencyLimitSelector({
             habits: {
                 1: {
                     id: 1,

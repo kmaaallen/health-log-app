@@ -328,7 +328,7 @@ exports[`<NewHabit /> renders correctly 1`] = `
                 }
               }
             >
-              Daily limit
+              Limit
             </Text>
             <Text
               collapsable={false}
@@ -362,7 +362,7 @@ exports[`<NewHabit /> renders correctly 1`] = `
                 }
               }
             >
-              Daily limit
+              Limit
             </Text>
           </View>
           <TextInput
@@ -410,6 +410,58 @@ exports[`<NewHabit /> renders correctly 1`] = `
             testID="limit-input"
             underlineColorAndroid="transparent"
             value=""
+          />
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "borderColor": "#ccc",
+            "borderRadius": 4,
+            "borderWidth": 1,
+            "height": 100,
+          }
+        }
+      >
+        <View>
+          <RNCPicker
+            items={
+              Array [
+                Object {
+                  "label": "Daily",
+                  "testID": "select-daily-frequency",
+                  "textColor": undefined,
+                  "value": "Daily",
+                },
+                Object {
+                  "label": "Weekly",
+                  "testID": "select-weekly-frequency",
+                  "textColor": undefined,
+                  "value": "Weekly",
+                },
+                Object {
+                  "label": "Monthly",
+                  "testID": "select-monthly-frequency",
+                  "textColor": undefined,
+                  "value": "Monthly",
+                },
+              ]
+            }
+            numberOfLines={1}
+            onChange={[Function]}
+            selectedIndex={0}
+            style={
+              Array [
+                Object {
+                  "height": 216,
+                },
+                Object {
+                  "fontSize": 16,
+                  "height": 100,
+                },
+              ]
+            }
+            testID="frequency-input"
           />
         </View>
       </View>
