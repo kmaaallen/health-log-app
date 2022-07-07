@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { useRoute } from '@react-navigation/native';
 //CHARTS
 import { LineChart } from 'react-native-chart-kit';
-import { getLastLabels, getFirstEntryLimit, getDataForLabels } from '../dateUtils';
+import { getLastLabels, getFirstEntryLimit, getDataForLabels, getYearHelper } from '../dateUtils';
 
 
 const styles = theme => StyleSheet.create({
@@ -45,10 +45,10 @@ function Report(props) {
                 data: getDataForLabels(filteredLog, chartLimit, habitFrequency),
                 color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})` // optional
             },
-            {
-                data: [4], //lowest graph value to fix y-axis values for low data sets
+            /*{
+                data: [0], //lowest graph value to fix y-axis values for low data sets - still being weird.
                 withDots: false, //hide the lowest dot.
-            },]
+            }*/,]
         }
     ); // sets data for chart based on chunk
 
@@ -58,7 +58,7 @@ function Report(props) {
         backgroundGradientFrom: '#ffffff',
         backgroundGradientTo: '#ffffff',
         color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-        decimalPlaces: 0,
+        //decimalPlaces: 0,
     }
 
     const graphStyle = {
@@ -81,10 +81,10 @@ function Report(props) {
                 data: getDataForLabels(filteredLog, newLimit, habitFrequency),
                 color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`
             },
-            {
+            /*{
                 data: [4], //lowest graph value to fix y-axis values for low data sets
                 withDots: false, //hide the lowest dot.
-            }]
+            }*/]
         });
 
         setChartLimit(newLimit);
@@ -100,7 +100,8 @@ function Report(props) {
                     onPress={() => getData('left')}
                     disabled={earliestDataLimit == chartLimit}
                 />
-                <Paragraph>{chartData.labels[0]} - {chartData.labels[habitFrequency - 1]}</Paragraph>
+                <Paragraph>
+                    {props.habits[habitId].frequency == 'Monthly' ? getYearHelper(chartLimit) : `${chartData.labels[0]} - ${chartData.labels[habitFrequency - 1]}`}</Paragraph>
                 <IconButton
                     icon="arrow-right-bold-circle"
                     size={20}
