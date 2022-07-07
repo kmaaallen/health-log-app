@@ -63,7 +63,7 @@ function NewHabit(props) {
                     control={control}
                     render={({ field: { onChange, value } }) => (
                         <TextInput
-                            label="Daily limit"
+                            label="Limit"
                             keyboardType="numeric"
                             onChangeText={value => onChange(value)}
                             value={value || ''}

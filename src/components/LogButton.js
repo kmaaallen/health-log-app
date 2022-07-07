@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { withTheme, Card, Button, Title, Paragraph, Dialog, TextInput, Portal, Chip } from 'react-native-paper';
+import { withTheme, Card, Button, Title, Paragraph, Dialog, IconButton, Portal, Chip } from 'react-native-paper';
 import { StyleSheet, View } from 'react-native';
 //REDUX
 import { connect } from 'react-redux';
@@ -28,8 +28,12 @@ const styles = theme => StyleSheet.create({
 //TODO: NUMBER VALIDATION
 
 export const LogButton = (props) => {
+    const { colors } = props.theme;
     const navigation = useNavigation();
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+    const filteredLog = props.habit.log.filter(function (log) {
+        return log.info.type == 'increment';
+    });
 
     const switchScreen = (screen, habitId) => {
         navigation.navigate(screen, { habit: habitId });
@@ -52,14 +56,20 @@ export const LogButton = (props) => {
             <Card.Content>
                 <Title>{props.habit.title}</Title>
                 {props.habit.category ? <View style={styles(props.theme).chipView}><Chip>{props.habit.category}</Chip></View> : null}
-                <Paragraph>{props.habit.count} / {props.habit.limit} {props.habit.frequency}</Paragraph>
+                <Paragraph>{props.habit.count} / {props.habit.limit} {props.habit.frequency == 'Daily' ? 'today' : 'this ' + props.habit.frequency.toLowerCase().slice(0, -2)}</Paragraph>
                 <Paragraph>Last logged: {props.updatedDisplay}</Paragraph>
             </Card.Content>
             <Card.Actions>
                 <Button style={styles(props.theme).button} mode='contained' disabled={props.hasReachedLimit} onPress={props.incrementCount}>+</Button>
                 <Button style={styles(props.theme).button} mode='contained' onPress={() => switchScreen('Edit', props.habit.id)}>Edit</Button>
                 <Button style={styles(props.theme).button} mode='contained' color={props.theme.colors.danger} onPress={() => setShowDeleteDialog(true)}>Delete</Button>
-                <Button style={styles(props.theme).button} mode='contained' onPress={() => switchScreen('Report', props.habit.id)}>Report</Button>
+                <IconButton
+                    icon="chart-line"
+                    size={20}
+                    onPress={() => switchScreen('Report', props.habit.id)}
+                    disabled={filteredLog.length == 0}
+                    color={colors.primary}
+                />
             </Card.Actions>
 
             <Portal>

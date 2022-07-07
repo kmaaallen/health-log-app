@@ -61,7 +61,7 @@ describe('<LogButton />', () => {
     });
 
     it('displays count / limit, category and last updated', () => {
-        const display = getByText('0 / 2 Daily');
+        const display = getByText('0 / 2 today');
         const updated = getByText('Last logged: 02/02/2021, 03:04:05');
         const category = getByText('Health');
         expect(display && updated && category).toBeTruthy();
@@ -79,10 +79,6 @@ describe('<LogButton />', () => {
         // Below way to confirm not updated again once limit reached
         fireEvent.press(increment);
         expect(store.getState().habits.habits[1].count).toBe(2);
-    });
-
-    it('renders a reset count when frequency reset is due', () => {
-        // TBC
     });
 
     it('renders edit button which allows user to edit habit in a new screen', () => {

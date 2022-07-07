@@ -328,7 +328,7 @@ exports[`<NewHabit /> renders correctly 1`] = `
                 }
               }
             >
-              Daily limit
+              Limit
             </Text>
             <Text
               collapsable={false}
@@ -362,7 +362,7 @@ exports[`<NewHabit /> renders correctly 1`] = `
                 }
               }
             >
-              Daily limit
+              Limit
             </Text>
           </View>
           <TextInput
