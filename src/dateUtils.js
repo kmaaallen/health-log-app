@@ -2,7 +2,7 @@
 export const getResetDateTime = (frequency) => {
     if (frequency == 'Daily') {
         var today = new Date();
-        const lastNight = today.setHours(0, 0, 0, -1);
+        const lastNight = today.setHours(23, 59, 59, 59);
         return lastNight;
     } else if (frequency == 'Weekly') {
         var today = new Date();
