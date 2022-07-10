@@ -1,9 +1,9 @@
 // Check if reset due
 export const getResetDateTime = (frequency) => {
     if (frequency == 'Daily') {
-        var midnight = new Date();
-        midnight.setHours(0, 0, 0, -1);
-        return midnight;
+        var today = new Date();
+        const lastNight = today.setHours(0, 0, 0, -1);
+        return lastNight;
     } else if (frequency == 'Weekly') {
         var today = new Date();
         const day = today.getDay();
@@ -59,7 +59,7 @@ export const getLastLabels = (limit, frequency) => {
     }
 }
 
-const getFirstSundayHelper = (limit) => {
+export const getFirstSundayHelper = (limit) => {
     var firstSunday = new Date();
     firstSunday.setDate(firstSunday.getDate() - (limit * 7));
     var day = firstSunday.getDay();
