@@ -21,7 +21,7 @@ describe('dateUtils', () => {
 
     test('getResetDateTime should return reset time depending on frequency', () => {
         // Daily frequency
-        expect(getResetDateTime('Daily')).toBe(1648857599059);
+        expect(getResetDateTime('Daily')).toBe(1648771199999);
         // Weekly frequency
         expect(getResetDateTime('Weekly')).toBe(1648425599059);
         // Monthly frequency
