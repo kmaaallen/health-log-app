@@ -2,7 +2,7 @@
 export const getResetDateTime = (frequency) => {
     if (frequency == 'Daily') {
         var today = new Date();
-        const lastNight = today.setHours(23, 59, 59, 59);
+        const lastNight = today.setHours(0, 0, 0, -1);
         return lastNight;
     } else if (frequency == 'Weekly') {
         var today = new Date();
@@ -77,9 +77,11 @@ export const getYearHelper = (limit) => {
 
 export const getFirstEntryLimit = (firstEntry, frequency) => {
     var today = new Date().valueOf(); // get today in unix
-    var divisor = 24 * 60 * 60 * 1000;
-    var dayDiff = Math.ceil((today - firstEntry) / divisor);
-    return (dayDiff - (dayDiff % frequency) + frequency);
+    var divisor = 24 * 60 * 60 * 1000; // ms in a day
+    var dayDiff = Math.round((today - firstEntry) / divisor) + 1; // difference in days between first and now
+    // get days from frequency
+    var freq = frequency == 7 ? 7 : frequency == 4 ? 16 : 365;
+    return (Math.ceil(dayDiff / freq) * frequency);
 }
 
 export const getDataForLabels = (logs, limit, frequency) => {
